@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:log/modules/extensions/list.dart';
+import 'package:getx_gui/modules/extensions/list.dart';
 
 import '../../common/utils/pubspec/pubspec_utils.dart';
 import '../create/create_single_file.dart';

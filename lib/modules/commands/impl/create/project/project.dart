@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:log/modules/input_dialog.dart';
+import 'package:getx_gui/modules/input_dialog.dart';
 import 'package:path/path.dart' as p;
 import 'package:recase/recase.dart';
 

@@ -1,4 +1,4 @@
-import 'package:log/modules/core/internationalization.dart';
+import 'package:getx_gui/modules/core/internationalization.dart';
 
 import '../../common/utils/logger/log_utils.dart';
 import '../../core/generator.dart';

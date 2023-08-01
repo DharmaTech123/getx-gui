@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:log/data/get.dart';
-import 'package:log/data/app_repository.dart';
-import 'package:log/modules/create_command_dialog.dart';
-import 'package:log/modules/generate_command_dialog.dart';
-import 'package:log/modules/input_dialog.dart';
-import 'package:log/modules/install_remove_dialog.dart';
+import 'package:getx_gui/data/get.dart';
+import 'package:getx_gui/data/app_repository.dart';
+import 'package:getx_gui/modules/create_command_dialog.dart';
+import 'package:getx_gui/modules/generate_command_dialog.dart';
+import 'package:getx_gui/modules/input_dialog.dart';
+import 'package:getx_gui/modules/install_remove_dialog.dart';
 
 class Task {
   static Future<void> create() async {

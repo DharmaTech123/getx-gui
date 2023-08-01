@@ -1,8 +1,8 @@
-import 'package:log/modules/common/utils/logger/log_utils.dart';
-import 'package:log/modules/core/generator.dart';
-import 'package:log/modules/exception_handler/exception_handler.dart';
-import 'package:log/modules/functions/version/version_update.dart';
-import 'package:log/modules/tasks_list.dart';
+import 'package:getx_gui/modules/common/utils/logger/log_utils.dart';
+import 'package:getx_gui/modules/core/generator.dart';
+import 'package:getx_gui/modules/exception_handler/exception_handler.dart';
+import 'package:getx_gui/modules/functions/version/version_update.dart';
+import 'package:getx_gui/modules/tasks_list.dart';
 
 Future<bool> callTask(List<String> arguments) async {
   try {

@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:log/modules/input_dialog.dart';
+import 'package:getx_gui/modules/input_dialog.dart';
 import 'package:http/http.dart';
 import 'package:path/path.dart' as p;
 import 'package:recase/recase.dart';

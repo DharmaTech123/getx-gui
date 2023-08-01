@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:log/data/app_repository.dart';
-import 'package:log/modules/models/create_model.dart';
+import 'package:getx_gui/data/app_repository.dart';
+import 'package:getx_gui/modules/models/create_model.dart';
 
 TextEditingController _inputController = TextEditingController();
 TextEditingController _locationController = TextEditingController();

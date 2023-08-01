@@ -1,4 +1,4 @@
-import 'package:log/modules/input_dialog.dart';
+import 'package:getx_gui/modules/input_dialog.dart';
 
 class Menu {
   final List<String> choices;

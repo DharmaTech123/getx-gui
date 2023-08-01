@@ -3,9 +3,9 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:log/data/app_colors.dart';
-import 'package:log/modules/create_command_dialog.dart';
-import 'package:log/modules/install_remove_dialog.dart';
+import 'package:getx_gui/data/app_colors.dart';
+import 'package:getx_gui/modules/create_command_dialog.dart';
+import 'package:getx_gui/modules/install_remove_dialog.dart';
 
 import 'data/app_repository.dart';
 import 'modules/generate_command_dialog.dart';

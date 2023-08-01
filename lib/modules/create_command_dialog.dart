@@ -3,8 +3,8 @@ import 'dart:io';
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:log/modules/models/create_model.dart';
-import 'package:log/modules/tasks_list.dart';
+import 'package:getx_gui/modules/models/create_model.dart';
+import 'package:getx_gui/modules/tasks_list.dart';
 
 class Create extends StatefulWidget {
   Create({super.key});
@@ -38,7 +38,7 @@ class _CreateState extends State<Create> {
               ),
               const SizedBox(height: 20),
               ListTile(
-                tileColor: Colors.black54,
+                //tileColor: Colors.black54,
                 title: DropdownButtonHideUnderline(
                   child: ButtonTheme(
                     alignedDropdown: true,
