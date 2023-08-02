@@ -3,6 +3,9 @@ import 'dart:io';
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:getx_gui/components/app_button.dart';
+import 'package:getx_gui/components/app_text_feild.dart';
+import 'package:getx_gui/data/app_colors.dart';
 import 'package:getx_gui/modules/models/generate_model.dart';
 import 'package:getx_gui/modules/tasks_list.dart';
 
@@ -36,7 +39,7 @@ class _GenerateState extends State<Generate> {
           ),
           const SizedBox(height: 20),
           ListTile(
-            //tileColor: Colors.black54,
+            tileColor: AppColors.kDFE6D5,
             title: DropdownButtonHideUnderline(
               child: ButtonTheme(
                 alignedDropdown: true,
@@ -66,20 +69,13 @@ class _GenerateState extends State<Generate> {
               setState, widget.modelSource),
           const SizedBox(height: 25),
           Center(
-            child: Container(
-              width: 300,
-              height: 40,
-              decoration: const BoxDecoration(
-                color: Colors.black26,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(25),
-                ),
+            child: AppButton(
+              onPressed: () => _onSubmitCreate(
+                widget.formKey,
+                widget.defaultCommand,
+                widget.modelSource,
               ),
-              child: TextButton(
-                onPressed: () => _onSubmitCreate(
-                    widget.formKey, widget.defaultCommand, widget.modelSource),
-                child: const Text('Submit'),
-              ),
+              title: 'Submit',
             ),
           ),
         ],
@@ -139,10 +135,8 @@ class _GenerateState extends State<Generate> {
         children: [
           ListTile(
             contentPadding: const EdgeInsets.symmetric(horizontal: 28),
-            title: TextFormField(
-              decoration: const InputDecoration(
-                label: Text('Project Root Location'),
-              ),
+            title: AppTextField(
+              label: 'Project Root Location',
               controller: widget.locationController,
               validator: (input) {
                 if (input?.isEmpty ?? false) {
@@ -158,11 +152,8 @@ class _GenerateState extends State<Generate> {
           ),
           ListTile(
             contentPadding: const EdgeInsets.symmetric(horizontal: 28),
-            title: TextFormField(
-              decoration: const InputDecoration(
-                label: Text(
-                    'directory with your translation files in json format'),
-              ),
+            title: AppTextField(
+              label: 'directory with your translation files in json format',
               controller: widget.destinationController,
               validator: (input) {
                 if (input?.isEmpty ?? false) {
@@ -188,10 +179,8 @@ class _GenerateState extends State<Generate> {
         children: [
           ListTile(
             contentPadding: const EdgeInsets.symmetric(horizontal: 28),
-            title: TextFormField(
-              decoration: const InputDecoration(
-                label: Text('Project Root Location'),
-              ),
+            title: AppTextField(
+              label: 'Project Root Location',
               controller: widget.locationController,
               validator: (input) {
                 if (input?.isEmpty ?? false) {
@@ -207,10 +196,8 @@ class _GenerateState extends State<Generate> {
           ),
           ListTile(
             contentPadding: const EdgeInsets.symmetric(horizontal: 28),
-            title: TextFormField(
-              decoration: const InputDecoration(
-                label: Text('Module Name'),
-              ),
+            title: AppTextField(
+              label: 'Module Name',
               controller: widget.nameController,
               validator: (input) {
                 if (input?.isEmpty ?? false) {
@@ -221,7 +208,7 @@ class _GenerateState extends State<Generate> {
             ),
           ),
           ListTile(
-            //tileColor: Colors.black54,
+            tileColor: AppColors.kDFE6D5,
             title: DropdownButtonHideUnderline(
               child: ButtonTheme(
                 alignedDropdown: true,
@@ -250,10 +237,8 @@ class _GenerateState extends State<Generate> {
           ),
           ListTile(
             contentPadding: const EdgeInsets.symmetric(horizontal: 28),
-            title: TextFormField(
-              decoration: const InputDecoration(
-                label: Text('path of your template file in json format'),
-              ),
+            title: AppTextField(
+              label: 'path of your template file in json format',
               controller: widget.destinationController,
               validator: (input) {
                 if (input?.isEmpty ?? false) {

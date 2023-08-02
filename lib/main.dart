@@ -53,12 +53,8 @@ class _MyHomePageState extends State<MyHomePage> {
               backgroundColor: AppColors.kDFE6D5,
               selectedIndex: paneIndex(),
               onDestinationSelected: (value) => paneIndex(value),
+              extended: true,
               destinations: const <NavigationRailDestination>[
-                NavigationRailDestination(
-                  icon: Icon(Icons.dashboard),
-                  selectedIcon: Icon(Icons.dashboard),
-                  label: Text('Dashboard'),
-                ),
                 NavigationRailDestination(
                   icon: Icon(Icons.create_new_folder),
                   selectedIcon: Icon(Icons.create_new_folder),
@@ -72,7 +68,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 NavigationRailDestination(
                   icon: Icon(Icons.install_desktop),
                   selectedIcon: Icon(Icons.install_desktop),
-                  label: Text('Manage Package'),
+                  label: Text('Manage Dependency'),
                 ),
               ],
             ),
@@ -93,13 +89,13 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Widget _buildPaneBody() {
-    if (paneIndex.value == 1) {
+    if (paneIndex.value == 0) {
       //return showCreateDialog(title: 'Create');
       return Create();
-    } else if (paneIndex.value == 2) {
+    } else if (paneIndex.value == 1) {
       //return showGenerateDialog(title: 'Generate');
       return Generate();
-    } else if (paneIndex.value == 3) {
+    } else if (paneIndex.value == 2) {
       //return showManagePackageDialog(title: 'Manage Package');
       return ManagePackage();
     } else {

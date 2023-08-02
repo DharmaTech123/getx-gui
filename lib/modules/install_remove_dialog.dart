@@ -1,8 +1,13 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:getx_gui/components/app_button.dart';
+import 'package:getx_gui/components/app_text_feild.dart';
+import 'package:getx_gui/data/app_colors.dart';
+import 'package:getx_gui/modules/common/utils/pubspec/pubspec_utils.dart';
 import 'package:getx_gui/modules/models/generate_model.dart';
 import 'package:getx_gui/modules/tasks_list.dart';
 
@@ -20,65 +25,104 @@ class ManagePackage extends StatefulWidget {
 }
 
 class _ManagePackageState extends State<ManagePackage> {
+  var dependenciesList = PubspecUtils.pubSpec.dependencies;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+      body: ListView(
         children: [
-          const ListTile(
-            title: Text(
-              'Manage Package',
-              style: TextStyle(fontWeight: FontWeight.bold),
-            ),
-            contentPadding: EdgeInsets.symmetric(horizontal: 25),
-          ),
-          const SizedBox(height: 20),
-          ListTile(
-            //tileColor: Colors.black54,
-            title: DropdownButtonHideUnderline(
-              child: ButtonTheme(
-                alignedDropdown: true,
-                child: DropdownButton<String>(
-                  focusColor: Colors.transparent,
-                  items: ['Install', 'Remove'].map(
-                    (String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    },
-                  ).toList(),
-                  onChanged: (value) {
-                    setState(() => widget.defaultCommand = value!);
-                  },
-                  hint: const Text('Select Command'),
-                  value: widget.defaultCommand,
-                  isDense: false,
-                ),
+          Column(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const ListTile(
+                    title: Text(
+                      'Manage Dependency',
+                      style: TextStyle(fontWeight: FontWeight.bold),
+                    ),
+                    contentPadding: EdgeInsets.symmetric(horizontal: 25),
+                  ),
+                  const SizedBox(height: 20),
+                  ListTile(
+                    tileColor: AppColors.kDFE6D5,
+                    title: DropdownButtonHideUnderline(
+                      child: ButtonTheme(
+                        alignedDropdown: true,
+                        child: DropdownButton<String>(
+                          focusColor: Colors.transparent,
+                          items: ['Install', 'Remove'].map(
+                            (String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            },
+                          ).toList(),
+                          onChanged: (value) {
+                            setState(() => widget.defaultCommand = value!);
+                          },
+                          hint: const Text('Select Command'),
+                          value: widget.defaultCommand,
+                          isDense: false,
+                        ),
+                      ),
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 25),
+                  ),
+                  const SizedBox(height: 25),
+                  _buildManagePackageInputField(widget.formKey),
+                  const SizedBox(height: 25),
+                  Center(
+                    child: AppButton(
+                      onPressed: () => _onSubmitCreate(
+                          widget.formKey, widget.defaultCommand),
+                      title: 'Submit',
+                    ),
+                  ),
+                ],
               ),
-            ),
-            contentPadding: const EdgeInsets.symmetric(horizontal: 25),
-          ),
-          const SizedBox(height: 25),
-          _buildManagePackageInputField(widget.formKey),
-          const SizedBox(height: 25),
-          Center(
-            child: Container(
-              width: 300,
-              height: 40,
-              decoration: const BoxDecoration(
-                color: Colors.black26,
-                borderRadius: BorderRadius.all(
-                  Radius.circular(25),
-                ),
+              const SizedBox(height: 60),
+              Column(
+                children: [
+                  ExpansionTile(
+                    title: const Text('Dependencies'),
+                    children: List.generate(
+                      PubspecUtils.pubSpec.dependencies.length,
+                      (index) => Text(
+                        PubspecUtils.pubSpec.dependencies
+                            .toString()
+                            .split(',')[index],
+                        textAlign: TextAlign.left,
+                      ),
+                    ),
+                  ),
+                  ExpansionTile(
+                    title: const Text('Dev Dependencies'),
+                    children: List.generate(
+                      PubspecUtils.pubSpec.devDependencies.length,
+                      (index) => Text(
+                        PubspecUtils.pubSpec.devDependencies
+                            .toString()
+                            .split(',')[index],
+                      ),
+                    ),
+                  ),
+                  ExpansionTile(
+                    title: const Text('Dependency Overrides'),
+                    children: List.generate(
+                      PubspecUtils.pubSpec.dependencyOverrides.length,
+                      (index) => Text(
+                        PubspecUtils.pubSpec.dependencyOverrides
+                            .toString()
+                            .split(',')[index],
+                      ),
+                    ),
+                  ),
+                ],
               ),
-              child: TextButton(
-                onPressed: () =>
-                    _onSubmitCreate(widget.formKey, widget.defaultCommand),
-                child: const Text('Submit'),
-              ),
-            ),
+            ],
           ),
         ],
       ),
@@ -112,10 +156,8 @@ class _ManagePackageState extends State<ManagePackage> {
         children: [
           ListTile(
             contentPadding: const EdgeInsets.symmetric(horizontal: 28),
-            title: TextFormField(
-              decoration: const InputDecoration(
-                label: Text('Project Root Location'),
-              ),
+            title: AppTextField(
+              label: 'Project Root Location',
               controller: widget.locationController,
               validator: (input) {
                 if (input?.isEmpty ?? false) {
@@ -131,10 +173,8 @@ class _ManagePackageState extends State<ManagePackage> {
           ),
           ListTile(
             contentPadding: const EdgeInsets.symmetric(horizontal: 28),
-            title: TextFormField(
-              decoration: const InputDecoration(
-                label: Text('Package Name'),
-              ),
+            title: AppTextField(
+              label: 'Package Name',
               controller: widget.nameController,
               validator: (input) {
                 if (input?.isEmpty ?? false) {

@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:getx_gui/components/app_button.dart';
+import 'package:getx_gui/components/app_text_feild.dart';
 import 'package:getx_gui/data/app_repository.dart';
 import 'package:getx_gui/modules/models/create_model.dart';
 
@@ -24,7 +26,7 @@ Future<String?> showInputDialog({required String title}) async {
               children: [
                 Form(
                   key: formKey,
-                  child: TextFormField(
+                  child: AppTextField(
                     controller: _inputController,
                     validator: (input) {
                       if (input?.isEmpty ?? false) {
@@ -32,10 +34,11 @@ Future<String?> showInputDialog({required String title}) async {
                       }
                       return null;
                     },
+                    label: '',
                   ),
                 ),
                 const SizedBox(height: 25),
-                TextButton(
+                AppButton(
                   onPressed: () {
                     if (formKey.currentState?.validate() ?? false) {
                       result = _inputController.text.trim();
@@ -43,7 +46,7 @@ Future<String?> showInputDialog({required String title}) async {
                       Get.back();
                     }
                   },
-                  child: const Text('Submit'),
+                  title: 'Submit',
                 ),
               ],
             ),
@@ -73,7 +76,7 @@ Future<String?> showLocationDialog({required String title}) async {
                   child: ListTile(
                     contentPadding: const EdgeInsets.symmetric(horizontal: 50),
                     leading: const Text('Project Location'),
-                    title: TextFormField(
+                    title: AppTextField(
                       controller: _locationController,
                     ),
                     trailing: TextButton(
@@ -83,7 +86,7 @@ Future<String?> showLocationDialog({required String title}) async {
                   ),
                 ),
                 const SizedBox(height: 40),
-                TextButton(
+                AppButton(
                   onPressed: () {
                     if (formKey.currentState?.validate() ?? false) {
                       result = _locationController.text.trim();
@@ -91,7 +94,7 @@ Future<String?> showLocationDialog({required String title}) async {
                       Get.back();
                     }
                   },
-                  child: const Text('Next'),
+                  title: 'Next',
                 ),
                 const SizedBox(height: 20),
               ],
@@ -137,11 +140,11 @@ Future<String?> showInputDialogMenu(
                     ),
                   ),
                   const SizedBox(height: 25),
-                  TextButton(
+                  AppButton(
                     onPressed: () {
                       Get.back();
                     },
-                    child: const Text('Submit'),
+                    title: 'Submit',
                   ),
                 ],
               );

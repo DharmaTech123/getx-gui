@@ -5,6 +5,27 @@ class AppDropDown extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return DropdownButtonHideUnderline(
+      child: ButtonTheme(
+        alignedDropdown: true,
+        child: DropdownButton<String>(
+          focusColor: Colors.transparent,
+          items: ['Install', 'Remove'].map(
+            (String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            },
+          ).toList(),
+          onChanged: (value) {
+            //setState(() => widget.defaultCommand = value!);
+          },
+          hint: const Text('Select Command'),
+          //value: widget.defaultCommand,
+          isDense: false,
+        ),
+      ),
+    );
   }
 }

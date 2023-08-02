@@ -3,6 +3,9 @@ import 'dart:io';
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:getx_gui/components/app_button.dart';
+import 'package:getx_gui/components/app_text_feild.dart';
+import 'package:getx_gui/data/app_colors.dart';
 import 'package:getx_gui/modules/models/create_model.dart';
 import 'package:getx_gui/modules/tasks_list.dart';
 
@@ -38,7 +41,7 @@ class _CreateState extends State<Create> {
               ),
               const SizedBox(height: 20),
               ListTile(
-                //tileColor: Colors.black54,
+                tileColor: AppColors.kDFE6D5,
                 title: DropdownButtonHideUnderline(
                   child: ButtonTheme(
                     alignedDropdown: true,
@@ -68,20 +71,10 @@ class _CreateState extends State<Create> {
                   widget.defaultCommand, widget.formKey),
               const SizedBox(height: 25),
               Center(
-                child: Container(
-                  width: 300,
-                  height: 40,
-                  decoration: const BoxDecoration(
-                    color: Colors.black26,
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(25),
-                    ),
-                  ),
-                  child: TextButton(
-                    onPressed: () =>
-                        _onSubmitCreate(widget.formKey, widget.defaultCommand),
-                    child: const Text('Submit'),
-                  ),
+                child: AppButton(
+                  onPressed: () =>
+                      _onSubmitCreate(widget.formKey, widget.defaultCommand),
+                  title: 'Submit',
                 ),
               ),
             ],
@@ -151,10 +144,8 @@ class _CreateState extends State<Create> {
         children: [
           ListTile(
             contentPadding: const EdgeInsets.symmetric(horizontal: 28),
-            title: TextFormField(
-              decoration: const InputDecoration(
-                label: Text('Project Root Location'),
-              ),
+            title: AppTextField(
+              label: 'Project Root Location',
               controller: widget.locationController,
               validator: (input) {
                 if (input?.isEmpty ?? false) {
@@ -170,10 +161,8 @@ class _CreateState extends State<Create> {
           ),
           ListTile(
             contentPadding: const EdgeInsets.symmetric(horizontal: 28),
-            title: TextFormField(
-              decoration: InputDecoration(
-                label: Text('$defaultCommand Name'),
-              ),
+            title: AppTextField(
+              label: '$defaultCommand Name',
               controller: widget.nameController,
               validator: (input) {
                 if (input?.isEmpty ?? false) {
@@ -185,10 +174,8 @@ class _CreateState extends State<Create> {
           ),
           ListTile(
             contentPadding: const EdgeInsets.symmetric(horizontal: 28),
-            title: TextFormField(
-              decoration: const InputDecoration(
-                label: Text('Module Name'),
-              ),
+            title: AppTextField(
+              label: 'Module Name',
               controller: widget.destinationController,
               validator: (input) {
                 if (input?.isEmpty ?? false) {
@@ -210,10 +197,8 @@ class _CreateState extends State<Create> {
         children: [
           ListTile(
             contentPadding: const EdgeInsets.symmetric(horizontal: 28),
-            title: TextFormField(
-              decoration: const InputDecoration(
-                label: Text('Project Root Location'),
-              ),
+            title: AppTextField(
+              label: 'Project Root Location',
               controller: widget.locationController,
               validator: (input) {
                 if (input?.isEmpty ?? false) {
@@ -229,10 +214,8 @@ class _CreateState extends State<Create> {
           ),
           ListTile(
             contentPadding: const EdgeInsets.symmetric(horizontal: 28),
-            title: TextFormField(
-              decoration: const InputDecoration(
-                label: Text('Page Name'),
-              ),
+            title: AppTextField(
+              label: 'Page Name',
               controller: widget.nameController,
               validator: (input) {
                 if (input?.isEmpty ?? false) {
@@ -244,10 +227,8 @@ class _CreateState extends State<Create> {
           ),
           ListTile(
             contentPadding: const EdgeInsets.symmetric(horizontal: 28),
-            title: TextFormField(
-              decoration: const InputDecoration(
-                label: Text('Page Name'),
-              ),
+            title: AppTextField(
+              label: 'Page Name',
               controller: widget.nameController,
               validator: (input) {
                 if (input?.isEmpty ?? false) {
@@ -267,10 +248,8 @@ class _CreateState extends State<Create> {
       key: formKey,
       child: ListTile(
         contentPadding: const EdgeInsets.symmetric(horizontal: 28),
-        title: TextFormField(
-          decoration: const InputDecoration(
-            label: Text('Project Location'),
-          ),
+        title: AppTextField(
+          label: 'Project Location',
           controller: widget.locationController,
           validator: (input) {
             if (input?.isEmpty ?? false) {
@@ -314,7 +293,7 @@ SimpleDialog _buildCreateDialog(
     String title, String? defaultCommand, GlobalKey<FormState> formKey) {
   return SimpleDialog(
     title: Text(title),
-    children: [
+    children: const [
       /*StatefulBuilder(
         builder: (BuildContext context, StateSetter setState) {
           //return _buildCreate(setState, defaultCommand, formKey);
