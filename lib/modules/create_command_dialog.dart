@@ -225,19 +225,6 @@ class _CreateState extends State<Create> {
               },
             ),
           ),
-          ListTile(
-            contentPadding: const EdgeInsets.symmetric(horizontal: 28),
-            title: AppTextField(
-              label: 'Page Name',
-              controller: widget.nameController,
-              validator: (input) {
-                if (input?.isEmpty ?? false) {
-                  return 'invalid input';
-                }
-                return null;
-              },
-            ),
-          ),
         ],
       ),
     );

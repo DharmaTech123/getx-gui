@@ -57,9 +57,7 @@ class PubspecUtils {
 
   static Future<bool> addDependencies(String package,
       {String? version, bool isDev = false, bool runPubGet = true}) async {
-    print('debug print package $package');
     var pubSpec = PubSpec.fromYamlString(_pubspecFile.readAsStringSync());
-
     if (containsPackage(package)) {
       LogService.info(
           LocaleKeys.ask_package_already_installed.trArgs([package]),
@@ -70,13 +68,13 @@ class PubspecUtils {
           LocaleKeys.options_yes.tr,
           LocaleKeys.options_no.tr,
         ],
+        title: LocaleKeys.ask_package_already_installed.trArgs([package]),
       );
       final result = await menu.choose();
       if (result.index != 0) {
         return false;
       }
     }
-
     version = version == null || version.isEmpty
         ? await PubDevApi.getLatestVersionFromPackage(package)
         : '^$version';

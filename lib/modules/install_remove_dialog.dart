@@ -10,6 +10,7 @@ import 'package:getx_gui/data/app_colors.dart';
 import 'package:getx_gui/modules/common/utils/pubspec/pubspec_utils.dart';
 import 'package:getx_gui/modules/models/generate_model.dart';
 import 'package:getx_gui/modules/tasks_list.dart';
+import 'package:pubspec/src/dependency.dart';
 
 class ManagePackage extends StatefulWidget {
   ManagePackage({super.key});
@@ -33,6 +34,7 @@ class _ManagePackageState extends State<ManagePackage> {
       body: ListView(
         children: [
           Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -83,49 +85,66 @@ class _ManagePackageState extends State<ManagePackage> {
                   ),
                 ],
               ),
-              const SizedBox(height: 60),
+              const SizedBox(height: 40),
               Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  ExpansionTile(
-                    title: const Text('Dependencies'),
-                    children: List.generate(
-                      PubspecUtils.pubSpec.dependencies.length,
-                      (index) => Text(
-                        PubspecUtils.pubSpec.dependencies
-                            .toString()
-                            .split(',')[index],
-                        textAlign: TextAlign.left,
-                      ),
-                    ),
+                  const SizedBox(height: 20),
+                  _buildListDependencies(
+                    title: 'Dependencies',
+                    dependencies: PubspecUtils.pubSpec.dependencies,
                   ),
-                  ExpansionTile(
-                    title: const Text('Dev Dependencies'),
-                    children: List.generate(
-                      PubspecUtils.pubSpec.devDependencies.length,
-                      (index) => Text(
-                        PubspecUtils.pubSpec.devDependencies
-                            .toString()
-                            .split(',')[index],
-                      ),
-                    ),
+                  const SizedBox(height: 20),
+                  _buildListDependencies(
+                    title: 'Dev Dependencies',
+                    dependencies: PubspecUtils.pubSpec.devDependencies,
                   ),
-                  ExpansionTile(
-                    title: const Text('Dependency Overrides'),
-                    children: List.generate(
-                      PubspecUtils.pubSpec.dependencyOverrides.length,
-                      (index) => Text(
-                        PubspecUtils.pubSpec.dependencyOverrides
-                            .toString()
-                            .split(',')[index],
-                      ),
-                    ),
+                  const SizedBox(height: 20),
+                  _buildListDependencies(
+                    title: 'Dependency Overrides',
+                    dependencies: PubspecUtils.pubSpec.dependencyOverrides,
                   ),
+                  const SizedBox(height: 20),
                 ],
               ),
             ],
           ),
         ],
       ),
+    );
+  }
+
+  Column _buildListDependencies(
+      {required String title,
+      required Map<String, DependencyReference> dependencies}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        ListTile(
+          title: Text(
+            title,
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: List.generate(
+            dependencies.length,
+            (index) => ListTile(
+              minVerticalPadding: 0,
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 60,
+                vertical: 0,
+              ),
+              title: Text(
+                dependencies.toString().split(',')[index].trim(),
+                textAlign: TextAlign.left,
+              ),
+            ),
+          ),
+        ),
+      ],
     );
   }
 

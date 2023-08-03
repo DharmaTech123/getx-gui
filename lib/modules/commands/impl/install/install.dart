@@ -1,3 +1,5 @@
+import 'package:getx_gui/modules/core/generator.dart';
+
 import '../../../common/utils/logger/log_utils.dart';
 import '../../../common/utils/pubspec/pubspec_utils.dart';
 import '../../../common/utils/shell/shel.utils.dart';
@@ -16,7 +18,7 @@ class InstallCommand extends Command {
     var isDev = containsArg('--dev') || containsArg('-dev');
     var runPubGet = false;
 
-    for (var element in args) {
+    for (var element in GetCli.arguments) {
       var packageInfo = element.split(':');
       LogService.info('Installing package "${packageInfo.first}" …');
       if (packageInfo.length == 1) {
@@ -42,7 +44,7 @@ class InstallCommand extends Command {
   bool validate() {
     super.validate();
 
-    if (args.isEmpty) {
+    if (GetCli.arguments.isEmpty) {
       throw CliException(
           'Please, enter the name of a package you wanna install',
           codeSample: codeSample);

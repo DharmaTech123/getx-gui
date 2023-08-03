@@ -20,7 +20,6 @@ class CreateProjectCommand extends Command {
   String get commandName => 'project';
   @override
   Future<void> execute() async {
-    print('debug print init execute');
     final menu = Menu([
       'Flutter Project',
       'Get Server',
@@ -87,22 +86,18 @@ class CreateProjectCommand extends Command {
       await ShellUtils.flutterCreate(path, org, iosLang, androidLang);
 
       File('test/widget_test.dart').writeAsStringSync('');
-      print('debug print init useNullSafe $useNullSafe');
       if (useNullSafe) {
         await ShellUtils.activatedNullSafe();
       }
-      print('debug print init activatedNullSafe');
       switch (linterResult.index) {
         case 0:
           if (PubspecUtils.isServerProject) {
-            print('debug print init ${PubspecUtils.isServerProject}');
             await PubspecUtils.addDependencies('lints',
                 isDev: true, runPubGet: true);
             AnalysisOptionsSample(
                     include: 'include: package:lints/recommended.yaml')
                 .create();
           } else {
-            print('debug print init flutter_lints');
             await PubspecUtils.addDependencies('flutter_lints',
                 isDev: true, runPubGet: true);
             AnalysisOptionsSample(
@@ -112,16 +107,12 @@ class CreateProjectCommand extends Command {
           break;
 
         default:
-          print('debug print init default flutter_lints');
           AnalysisOptionsSample().create();
       }
-      print('debug print init command');
       await InitCommand().execute();
     } else {
-      print('debug print init GetServer');
       await InitGetServer().execute();
     }
-    print('debug print init outer loop');
   }
 
   @override

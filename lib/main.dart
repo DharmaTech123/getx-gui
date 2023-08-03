@@ -61,14 +61,24 @@ class _MyHomePageState extends State<MyHomePage> {
                   label: Text('Create'),
                 ),
                 NavigationRailDestination(
+                  icon: Icon(Icons.install_desktop),
+                  selectedIcon: Icon(Icons.install_desktop),
+                  label: Text('Manage Dependency'),
+                ),
+                NavigationRailDestination(
                   icon: Icon(Icons.sync),
                   selectedIcon: Icon(Icons.sync),
                   label: Text('Generate'),
                 ),
                 NavigationRailDestination(
-                  icon: Icon(Icons.install_desktop),
-                  selectedIcon: Icon(Icons.install_desktop),
-                  label: Text('Manage Dependency'),
+                  icon: Icon(Icons.image_outlined),
+                  selectedIcon: Icon(Icons.image_outlined),
+                  label: Text('Manage Assets'),
+                ),
+                NavigationRailDestination(
+                  icon: Icon(Icons.font_download_outlined),
+                  selectedIcon: Icon(Icons.font_download_outlined),
+                  label: Text('Manage Fonts'),
                 ),
               ],
             ),
@@ -94,10 +104,10 @@ class _MyHomePageState extends State<MyHomePage> {
       return Create();
     } else if (paneIndex.value == 1) {
       //return showGenerateDialog(title: 'Generate');
-      return Generate();
+      return ManagePackage();
     } else if (paneIndex.value == 2) {
       //return showManagePackageDialog(title: 'Manage Package');
-      return ManagePackage();
+      return Generate();
     } else {
       return const SizedBox.shrink();
     }

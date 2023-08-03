@@ -1,3 +1,5 @@
+import 'package:getx_gui/modules/core/generator.dart';
+
 import '../../../common/utils/logger/log_utils.dart';
 import '../../../common/utils/pubspec/pubspec_utils.dart';
 import '../../../common/utils/shell/shel.utils.dart';
@@ -11,7 +13,7 @@ class RemoveCommand extends Command {
   String get commandName => 'remove';
   @override
   Future<void> execute() async {
-    for (var package in args) {
+    for (var package in GetCli.arguments) {
       PubspecUtils.removeDependencies(package);
     }
 
@@ -26,7 +28,7 @@ class RemoveCommand extends Command {
   @override
   bool validate() {
     super.validate();
-    if (args.isEmpty) {
+    if (GetCli.arguments.isEmpty) {
       CliException(LocaleKeys.error_no_package_to_remove.tr,
           codeSample: codeSample);
     }

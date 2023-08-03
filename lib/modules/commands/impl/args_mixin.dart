@@ -70,7 +70,6 @@ class ArgsMixin {
   /// ```
   String get name {
     var args = List.of(GetCli.arguments);
-    print('debug print desktop args ${args.toSet().toString()}');
     _removeDefaultArgs(args);
     if (args.length > 1) {
       if (args[0] == 'create' || args[0] == '-c') {
@@ -78,7 +77,6 @@ class ArgsMixin {
         var split = arg.split(':');
         var type = split.first;
         var name = split.last;
-        print('debug print desktop args 2 $arg $split $type $name');
         if (name == type) {
           if (args.length > 2) {
             name = args[2];
@@ -89,11 +87,9 @@ class ArgsMixin {
         if (type == 'project') {
           return name.isEmpty ? '.' : name.snakeCase;
         }
-        print('debug print desktop args 3 $name');
         return name;
       }
     }
-    print('debug print desktop blank');
     return '';
   }
 

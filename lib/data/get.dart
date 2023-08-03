@@ -25,15 +25,11 @@ Future<bool> callTask(List<String> arguments) async {
     }
     // time.stop();
     // LogService.info('Time: ${time.elapsed.inMilliseconds} Milliseconds');
-    print('debug print return true');
     return true;
   } catch (e) {
-    print('debug print return false');
     return false;
   } finally {
-    print('debug print clear args ${GetCli.arguments.toSet()}');
     GetCli.clearArgs;
-    print('debug print clear args ${GetCli.arguments.toSet()}');
     //GetCli.clearInstance;
   }
 }

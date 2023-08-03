@@ -97,8 +97,7 @@ class Task {
       destinationFolder
     ]);
     if (status) {
-      showStatusDialog(
-          title: 'Locales Successfully Generated', isSuccess: true);
+      showStatusDialog(title: 'Model Successfully Generated', isSuccess: true);
     }
     hideLoader();
   }
@@ -112,7 +111,9 @@ class Task {
         await callTask([isRemoving ? 'remove' : 'install', packageName]);
     if (status) {
       showStatusDialog(
-          title: 'Locales Successfully Generated', isSuccess: true);
+          title:
+              'Dependency Successfully ${isRemoving ? 'Removed' : 'Installed'}',
+          isSuccess: true);
     }
     hideLoader();
   }
