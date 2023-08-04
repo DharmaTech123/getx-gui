@@ -39,7 +39,7 @@ class _CreateState extends State<Create> {
                 ),
                 contentPadding: EdgeInsets.symmetric(horizontal: 25),
               ),
-              const SizedBox(height: 20),
+              const SizedBox(height: 12),
               ListTile(
                 tileColor: AppColors.kDFE6D5,
                 title: DropdownButtonHideUnderline(
@@ -66,10 +66,10 @@ class _CreateState extends State<Create> {
                 ),
                 contentPadding: const EdgeInsets.symmetric(horizontal: 25),
               ),
-              const SizedBox(height: 25),
+              const SizedBox(height: 12),
               _buildInputTextFieldWidgets(
                   widget.defaultCommand, widget.formKey),
-              const SizedBox(height: 25),
+              const SizedBox(height: 12),
               Center(
                 child: AppButton(
                   onPressed: () =>

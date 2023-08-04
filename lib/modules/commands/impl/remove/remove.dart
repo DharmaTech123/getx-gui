@@ -13,8 +13,9 @@ class RemoveCommand extends Command {
   String get commandName => 'remove';
   @override
   Future<void> execute() async {
+    var isDev = containsArg('--dev') || containsArg('-dev');
     for (var package in GetCli.arguments) {
-      PubspecUtils.removeDependencies(package);
+      PubspecUtils.removeDependencies(package, isDev: isDev);
     }
 
     //if (GetCli.arguments.first == 'remove') {

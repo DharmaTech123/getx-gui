@@ -105,10 +105,17 @@ class Task {
   static Future<void> managePubspecPackage({
     required String packageName,
     required bool isRemoving,
+    required bool isDev,
   }) async {
     showLoader();
-    bool status =
-        await callTask([isRemoving ? 'remove' : 'install', packageName]);
+    List<String> args = [
+      isRemoving ? 'remove' : 'install',
+      isRemoving ? packageName.split(':').first : packageName
+    ];
+    if (isDev) {
+      args.add('--dev');
+    }
+    bool status = await callTask(args);
     if (status) {
       showStatusDialog(
           title:

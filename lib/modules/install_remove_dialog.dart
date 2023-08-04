@@ -19,6 +19,7 @@ class ManagePackage extends StatefulWidget {
   TextEditingController nameController = TextEditingController();
   TextEditingController destinationController = TextEditingController();
   String? defaultCommand;
+  bool isDev = false;
   GlobalKey<FormState> formKey = GlobalKey();
 
   @override
@@ -46,7 +47,7 @@ class _ManagePackageState extends State<ManagePackage> {
                     ),
                     contentPadding: EdgeInsets.symmetric(horizontal: 25),
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 12),
                   ListTile(
                     tileColor: AppColors.kDFE6D5,
                     title: DropdownButtonHideUnderline(
@@ -73,9 +74,18 @@ class _ManagePackageState extends State<ManagePackage> {
                     ),
                     contentPadding: const EdgeInsets.symmetric(horizontal: 25),
                   ),
-                  const SizedBox(height: 25),
+                  const SizedBox(height: 12),
                   _buildManagePackageInputField(widget.formKey),
-                  const SizedBox(height: 25),
+                  const SizedBox(height: 12),
+                  CheckboxListTile(
+                    contentPadding: const EdgeInsets.symmetric(horizontal: 25),
+                    controlAffinity: ListTileControlAffinity.leading,
+                    title: const Text('Dev Dependency'),
+                    value: widget.isDev,
+                    onChanged: (value) =>
+                        setState(() => widget.isDev = value ?? false),
+                  ),
+                  const SizedBox(height: 12),
                   Center(
                     child: AppButton(
                       onPressed: () => _onSubmitCreate(
@@ -157,10 +167,14 @@ class _ManagePackageState extends State<ManagePackage> {
       if (defaultCommand == null) {
       } else if (defaultCommand.toLowerCase() == 'install') {
         Task.managePubspecPackage(
-            packageName: widget.nameController.text, isRemoving: false);
+            packageName: widget.nameController.text,
+            isRemoving: false,
+            isDev: widget.isDev);
       } else if (defaultCommand.toLowerCase() == 'remove') {
         Task.managePubspecPackage(
-            packageName: widget.nameController.text, isRemoving: true);
+            packageName: widget.nameController.text,
+            isRemoving: true,
+            isDev: widget.isDev);
       }
       widget.locationController.clear();
       widget.nameController.clear();

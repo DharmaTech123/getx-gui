@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:getx_gui/modules/common/utils/logger/log_utils.dart';
+import 'package:getx_gui/modules/common/utils/pubspec/pubspec_utils.dart';
 import 'package:getx_gui/modules/core/generator.dart';
 import 'package:getx_gui/modules/exception_handler/exception_handler.dart';
 import 'package:getx_gui/modules/functions/version/version_update.dart';
@@ -8,6 +11,7 @@ Future<bool> callTask(List<String> arguments) async {
   try {
     //var time = Stopwatch();
     //time.start();
+    PubspecUtils().loadFile(File('pubspec.yaml'));
     final command = GetCli(arguments).findCommand();
 
     if (arguments.contains('--debug')) {

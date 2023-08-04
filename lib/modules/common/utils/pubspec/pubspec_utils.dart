@@ -14,10 +14,14 @@ import 'yaml_to.string.dart';
 
 // ignore: avoid_classes_with_only_static_members
 class PubspecUtils {
-  static final _pubspecFile = File('pubspec.yaml');
+  static File _pubspecFile = File('pubspec.yaml');
 
   static PubSpec get pubSpec =>
       PubSpec.fromYamlString(_pubspecFile.readAsStringSync());
+
+  static set pubspecFile(value) {
+    _pubspecFile = value;
+  }
 
   /// separtor
   static final _mapSep = _PubValue<String>(() {
@@ -77,7 +81,9 @@ class PubspecUtils {
     }
     version = version == null || version.isEmpty
         ? await PubDevApi.getLatestVersionFromPackage(package)
-        : '^$version';
+        : version.contains('^')
+            ? version
+            : '^$version';
     if (version == null) return false;
     if (isDev) {
       pubSpec.devDependencies[package] = HostedReference.fromJson(version);
@@ -91,10 +97,11 @@ class PubspecUtils {
     return true;
   }
 
-  static void removeDependencies(String package, {bool logger = true}) {
-    if (logger) LogService.info('Removing package: "$package"');
+  static void removeDependencies(String package,
+      {bool logger = true, bool isDev = false}) {
+    if (logger) LogService.info('Removing package: "$package" $isDev');
 
-    if (containsPackage(package)) {
+    if (containsPackage(package, isDev: isDev)) {
       var dependencies = pubSpec.dependencies;
       var devDependencies = pubSpec.devDependencies;
 
@@ -113,7 +120,7 @@ class PubspecUtils {
     }
   }
 
-  static bool containsPackage(String package, [bool isDev = false]) {
+  static bool containsPackage(String package, {bool isDev = false}) {
     var dependencies = isDev ? pubSpec.devDependencies : pubSpec.dependencies;
     return dependencies.containsKey(package.trim());
   }
@@ -153,6 +160,10 @@ class PubspecUtils {
   static void _savePub(PubSpec pub) {
     var value = CliYamlToString().toYamlString(pub.toJson());
     _pubspecFile.writeAsStringSync(value);
+  }
+
+  void loadFile(File file) {
+    _pubspecFile = file;
   }
 }
 
