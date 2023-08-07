@@ -65,15 +65,17 @@ class _GenerateState extends State<Generate> {
             contentPadding: const EdgeInsets.symmetric(horizontal: 25),
           ),
           const SizedBox(height: 12),
-          _buildInputTextFieldWidgets(widget.defaultCommand, widget.formKey,
-              setState, widget.modelSource),
+          _buildInputTextFieldWidgets(
+            widget.defaultCommand,
+            widget.formKey,
+            setState,
+          ),
           const SizedBox(height: 12),
           Center(
             child: AppButton(
               onPressed: () => _onSubmitCreate(
                 widget.formKey,
                 widget.defaultCommand,
-                widget.modelSource,
               ),
               title: 'Submit',
             ),
@@ -86,7 +88,6 @@ class _GenerateState extends State<Generate> {
   void _onSubmitCreate(
     GlobalKey<FormState> formKey,
     String? defaultCommand,
-    String? modelSource,
   ) {
     if (formKey.currentState?.validate() ?? false) {
       Get.back();
@@ -97,10 +98,12 @@ class _GenerateState extends State<Generate> {
             destinationFolder: widget.destinationController.text);
       } else if (defaultCommand.toLowerCase() ==
           GenerateCommandName.model.name) {
-        if (modelSource != null) {
+        print('debug print ${widget.modelSource}');
+        if (widget.modelSource != null) {
           Task.generateModel(
             moduleName: widget.nameController.text,
-            modelSource: modelSource.contains('From Local') ? 'with' : 'from',
+            modelSource:
+                widget.modelSource!.contains('From Local') ? 'with' : 'from',
             destinationFolder: widget.destinationController.text,
           );
         }
@@ -115,7 +118,6 @@ class _GenerateState extends State<Generate> {
     String? defaultCommand,
     GlobalKey<FormState> formKey,
     StateSetter setState,
-    String? modelSource,
   ) {
     if (defaultCommand == null) {
       return const SizedBox.shrink();
@@ -123,7 +125,7 @@ class _GenerateState extends State<Generate> {
         GenerateCommandName.locales.name) {
       return _buildGenerateLocaleInputField(formKey);
     } else if (defaultCommand.toLowerCase() == GenerateCommandName.model.name) {
-      return _buildGenerateModelInputField(formKey, setState, modelSource);
+      return _buildGenerateModelInputField(formKey, setState);
     }
     return const SizedBox.shrink();
   }
@@ -171,7 +173,6 @@ class _GenerateState extends State<Generate> {
   Form _buildGenerateModelInputField(
     GlobalKey<FormState> formKey,
     StateSetter setState,
-    String? modelSource,
   ) {
     return Form(
       key: formKey,
@@ -224,11 +225,11 @@ class _GenerateState extends State<Generate> {
                   ).toList(),
                   onChanged: (value) {
                     setState(() {
-                      modelSource = value!;
+                      widget.modelSource = value!;
                     });
                   },
                   hint: const Text('From'),
-                  value: modelSource,
+                  value: widget.modelSource,
                   isDense: false,
                 ),
               ),

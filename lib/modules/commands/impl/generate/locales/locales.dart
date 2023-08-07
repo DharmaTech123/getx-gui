@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:getx_gui/modules/core/generator.dart';
 import 'package:path/path.dart';
 
 import '../../../../common/utils/logger/log_utils.dart';
@@ -24,7 +25,8 @@ class GenerateLocalesCommand extends Command {
 
   @override
   Future<void> execute() async {
-    final inputPath = args.isNotEmpty ? args.first : 'assets/locales';
+    final inputPath =
+        GetCli.arguments.isNotEmpty ? GetCli.arguments.last : 'assets/locales';
 
     if (!await Directory(inputPath).exists()) {
       LogService.error(

@@ -88,6 +88,7 @@ class Task {
       required String moduleName,
       required String modelSource}) async {
     showLoader();
+    print('debug print $moduleName $modelSource $destinationFolder');
     bool status = await callTask([
       'generate',
       'model',
