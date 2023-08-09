@@ -40,6 +40,11 @@ class _GenerateState extends State<Generate> {
           const SizedBox(height: 12),
           ListTile(
             tileColor: AppColors.kDFE6D5,
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(12),
+              ),
+            ),
             title: DropdownButtonHideUnderline(
               child: ButtonTheme(
                 alignedDropdown: true,
@@ -62,8 +67,9 @@ class _GenerateState extends State<Generate> {
                 ),
               ),
             ),
-            contentPadding: const EdgeInsets.symmetric(horizontal: 25),
-          ),
+            contentPadding: EdgeInsets.zero,
+            minVerticalPadding: 0,
+          ).paddingAll(25),
           const SizedBox(height: 12),
           _buildInputTextFieldWidgets(
             widget.defaultCommand,
@@ -98,7 +104,6 @@ class _GenerateState extends State<Generate> {
             destinationFolder: widget.destinationController.text);
       } else if (defaultCommand.toLowerCase() ==
           GenerateCommandName.model.name) {
-        print('debug print ${widget.modelSource}');
         if (widget.modelSource != null) {
           Task.generateModel(
             moduleName: widget.nameController.text,

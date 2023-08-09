@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getx_gui/data/get.dart';
 import 'package:getx_gui/data/app_repository.dart';
-import 'package:getx_gui/modules/create_command_dialog.dart';
-import 'package:getx_gui/modules/generate_command_dialog.dart';
+import 'package:getx_gui/modules/create_command_view.dart';
+import 'package:getx_gui/modules/generate_command_view.dart';
 import 'package:getx_gui/modules/input_dialog.dart';
-import 'package:getx_gui/modules/install_remove_dialog.dart';
+import 'package:getx_gui/modules/install_remove_view.dart';
 
 class Task {
   static Future<void> create() async {
@@ -88,7 +88,6 @@ class Task {
       required String moduleName,
       required String modelSource}) async {
     showLoader();
-    print('debug print $moduleName $modelSource $destinationFolder');
     bool status = await callTask([
       'generate',
       'model',

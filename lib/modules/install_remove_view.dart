@@ -50,6 +50,11 @@ class _ManagePackageState extends State<ManagePackage> {
                   const SizedBox(height: 12),
                   ListTile(
                     tileColor: AppColors.kDFE6D5,
+                    shape: const RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(12),
+                      ),
+                    ),
                     title: DropdownButtonHideUnderline(
                       child: ButtonTheme(
                         alignedDropdown: true,
@@ -72,8 +77,9 @@ class _ManagePackageState extends State<ManagePackage> {
                         ),
                       ),
                     ),
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 25),
-                  ),
+                    contentPadding: EdgeInsets.zero,
+                    minVerticalPadding: 0,
+                  ).paddingAll(25),
                   const SizedBox(height: 12),
                   _buildManagePackageInputField(widget.formKey),
                   const SizedBox(height: 12),

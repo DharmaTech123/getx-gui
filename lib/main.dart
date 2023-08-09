@@ -4,11 +4,12 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getx_gui/data/app_colors.dart';
-import 'package:getx_gui/modules/create_command_dialog.dart';
-import 'package:getx_gui/modules/install_remove_dialog.dart';
+import 'package:getx_gui/modules/create_command_view.dart';
+import 'package:getx_gui/modules/install_remove_view.dart';
+import 'package:getx_gui/modules/manage_assets_view.dart';
 
 import 'data/app_repository.dart';
-import 'modules/generate_command_dialog.dart';
+import 'modules/generate_command_view.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -108,6 +109,9 @@ class _MyHomePageState extends State<MyHomePage> {
     } else if (paneIndex.value == 2) {
       //return showManagePackageDialog(title: 'Manage Package');
       return Generate();
+    } else if (paneIndex.value == 3) {
+      //return showManagePackageDialog(title: 'Manage Package');
+      return ManageAssets();
     } else {
       return const SizedBox.shrink();
     }
