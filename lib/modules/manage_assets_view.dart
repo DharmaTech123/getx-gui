@@ -28,8 +28,14 @@ class _ManageAssetsState extends State<ManageAssets> {
   }
 
   void readAssets() {
-    for (var element in (assets!['flutter']['assets'] as List)) {
-      traverseDirectory(element);
+    if (assets != null) {
+      if (assets!['flutter'] != null) {
+        if (assets!['flutter']['assets'] != null) {
+          for (var element in (assets!['flutter']['assets'] as List)) {
+            traverseDirectory(element);
+          }
+        }
+      }
     }
   }
 
