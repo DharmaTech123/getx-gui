@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:getx_gui/modules/input_dialog.dart';
+import 'package:getx_gui/modules/ui/components/input_dialog.dart';
 import 'package:recase/recase.dart';
 
 import '../../../../common/menu/menu.dart';

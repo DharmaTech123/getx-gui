@@ -3,11 +3,11 @@ import 'dart:io';
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:getx_gui/components/app_button.dart';
-import 'package:getx_gui/components/app_text_feild.dart';
-import 'package:getx_gui/data/app_colors.dart';
+import 'package:getx_gui/modules/ui/components/app_button.dart';
+import 'package:getx_gui/modules/ui/components/app_text_feild.dart';
+import 'package:getx_gui/data/local/app_colors.dart';
 import 'package:getx_gui/modules/models/generate_model.dart';
-import 'package:getx_gui/modules/tasks_list.dart';
+import 'package:getx_gui/modules/ui/task_manager/tasks_list.dart';
 
 class Generate extends StatefulWidget {
   Generate({super.key});
@@ -96,7 +96,7 @@ class _GenerateState extends State<Generate> {
     String? defaultCommand,
   ) {
     if (formKey.currentState?.validate() ?? false) {
-      Get.back();
+      Get.back<void>();
       if (defaultCommand == null) {
       } else if (defaultCommand.toLowerCase() ==
           GenerateCommandName.locales.name) {

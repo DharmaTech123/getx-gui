@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:getx_gui/data/get.dart';
-import 'package:getx_gui/data/app_repository.dart';
-import 'package:getx_gui/modules/create_command_view.dart';
-import 'package:getx_gui/modules/generate_command_view.dart';
-import 'package:getx_gui/modules/input_dialog.dart';
-import 'package:getx_gui/modules/install_remove_view.dart';
+import 'package:getx_gui/modules/ui/task_manager/task_manager.dart';
+import 'package:getx_gui/data/repository/app_repository.dart';
+import 'package:getx_gui/modules/ui/components/create_command_view.dart';
+import 'package:getx_gui/modules/ui/components/generate_command_view.dart';
+import 'package:getx_gui/modules/ui/components/input_dialog.dart';
+import 'package:getx_gui/modules/ui/components/manage_dependency.dart';
 
 class Task {
   static Future<void> create() async {
@@ -22,41 +22,44 @@ class Task {
 
   static Future<void> createProject() async {
     showLoader();
-    bool status = await callTask(['create', 'project']);
+    final bool status = await callTask(['create', 'project']);
     hideLoader();
     if (status) {
-      showStatusDialog(title: 'Project Successfully Created', isSuccess: true);
+      await showStatusDialog(
+          title: 'Project Successfully Created', isSuccess: true);
     }
   }
 
   static Future<void> createModule({required String pageName}) async {
     showLoader();
-    bool status = await callTask(['create', 'page', pageName]);
+    final bool status = await callTask(['create', 'page', pageName]);
     hideLoader();
     if (status) {
-      showStatusDialog(title: 'Module Successfully Created', isSuccess: true);
+      await showStatusDialog(
+          title: 'Module Successfully Created', isSuccess: true);
     }
   }
 
   static Future<void> createView(
       {required String viewName, required String moduleName}) async {
     showLoader();
-    bool status =
+    final bool status =
         await callTask(['create', 'view', viewName, 'on', moduleName]);
     hideLoader();
     if (status) {
-      showStatusDialog(title: 'View Successfully Created', isSuccess: true);
+      await showStatusDialog(
+          title: 'View Successfully Created', isSuccess: true);
     }
   }
 
   static Future<void> createController(
       {required String controllerName, required String moduleName}) async {
     showLoader();
-    bool status = await callTask(
+    final bool status = await callTask(
         ['create', 'controller', controllerName, 'on', moduleName]);
     hideLoader();
     if (status) {
-      showStatusDialog(
+      await showStatusDialog(
           title: 'Controller Successfully Created', isSuccess: true);
     }
   }
@@ -64,20 +67,22 @@ class Task {
   static Future<void> createProvider(
       {required String providerName, required String moduleName}) async {
     showLoader();
-    bool status =
+    final bool status =
         await callTask(['create', 'provider', providerName, 'on', moduleName]);
     hideLoader();
     if (status) {
-      showStatusDialog(title: 'Provider Successfully Created', isSuccess: true);
+      await showStatusDialog(
+          title: 'Provider Successfully Created', isSuccess: true);
     }
   }
 
   static Future<void> generateLocales(
       {required String destinationFolder}) async {
     showLoader();
-    bool status = await callTask(['generate', 'locales', destinationFolder]);
+    final bool status =
+        await callTask(['generate', 'locales', destinationFolder]);
     if (status) {
-      showStatusDialog(
+      await showStatusDialog(
           title: 'Locales Successfully Generated', isSuccess: true);
     }
     hideLoader();
@@ -88,7 +93,7 @@ class Task {
       required String moduleName,
       required String modelSource}) async {
     showLoader();
-    bool status = await callTask([
+    final bool status = await callTask([
       'generate',
       'model',
       'on',
@@ -115,37 +120,36 @@ class Task {
     if (isDev) {
       args.add('--dev');
     }
-    bool status = await callTask(args);
+    final bool status = await callTask(args);
     if (status) {
-      showStatusDialog(
-          title:
-              'Dependency Successfully ${isRemoving ? 'Removed' : 'Installed'}',
-          isSuccess: true);
+      await showStatusDialog(
+        title:
+            'Dependency Successfully ${isRemoving ? 'Removed' : 'Installed'}',
+        isSuccess: true,
+      );
     }
     hideLoader();
   }
 
-  static showLoader() {
+  static void showLoader() {
     isTaskRunning(true);
   }
 
-  static hideLoader() {
+  static void hideLoader() {
     isTaskRunning(false);
   }
 
   static Future<void> showStatusDialog(
       {required String title, required bool isSuccess}) async {
-    await showDialog(
+    await showDialog<void>(
       context: Get.context!,
-      builder: (context) {
-        return AlertDialog(
-          title: Text(title),
-          icon: Icon(
-            isSuccess ? Icons.check_circle : Icons.close_rounded,
-            color: isSuccess ? Colors.green : Colors.red,
-          ),
-        );
-      },
+      builder: (BuildContext context) => AlertDialog(
+        title: Text(title),
+        icon: Icon(
+          isSuccess ? Icons.check_circle : Icons.close_rounded,
+          color: isSuccess ? Colors.green : Colors.red,
+        ),
+      ),
     );
   }
 }

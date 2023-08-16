@@ -3,13 +3,13 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:getx_gui/data/app_colors.dart';
-import 'package:getx_gui/modules/create_command_view.dart';
-import 'package:getx_gui/modules/install_remove_view.dart';
-import 'package:getx_gui/modules/manage_assets_view.dart';
+import 'package:getx_gui/data/local/app_colors.dart';
+import 'package:getx_gui/modules/ui/components/create_command_view.dart';
+import 'package:getx_gui/modules/ui/components/manage_dependency.dart';
+import 'package:getx_gui/modules/ui/components/manage_assets_view.dart';
 
-import 'data/app_repository.dart';
-import 'modules/generate_command_view.dart';
+import 'data/repository/app_repository.dart';
+import 'modules/ui/components/generate_command_view.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -75,11 +75,6 @@ class _MyHomePageState extends State<MyHomePage> {
                   icon: Icon(Icons.image_outlined),
                   selectedIcon: Icon(Icons.image_outlined),
                   label: Text('Manage Assets'),
-                ),
-                NavigationRailDestination(
-                  icon: Icon(Icons.font_download_outlined),
-                  selectedIcon: Icon(Icons.font_download_outlined),
-                  label: Text('Manage Fonts'),
                 ),
               ],
             ),

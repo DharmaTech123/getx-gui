@@ -5,7 +5,7 @@ import 'package:getx_gui/modules/common/utils/pubspec/pubspec_utils.dart';
 import 'package:getx_gui/modules/core/generator.dart';
 import 'package:getx_gui/modules/exception_handler/exception_handler.dart';
 import 'package:getx_gui/modules/functions/version/version_update.dart';
-import 'package:getx_gui/modules/tasks_list.dart';
+import 'package:getx_gui/modules/ui/task_manager/tasks_list.dart';
 
 Future<bool> callTask(List<String> arguments) async {
   try {

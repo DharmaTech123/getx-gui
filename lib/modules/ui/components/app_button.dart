@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:getx_gui/data/app_colors.dart';
+import 'package:getx_gui/data/local/app_colors.dart';
 
 class AppButton extends StatelessWidget {
   AppButton({
