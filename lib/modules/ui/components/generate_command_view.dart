@@ -39,7 +39,7 @@ class _GenerateState extends State<Generate> {
           ),
           const SizedBox(height: 12),
           ListTile(
-            tileColor: AppColors.kDFE6D5,
+            tileColor: AppColors.k252525,
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(
                 Radius.circular(12),
@@ -214,7 +214,12 @@ class _GenerateState extends State<Generate> {
             ),
           ),
           ListTile(
-            tileColor: AppColors.kDFE6D5,
+            tileColor: AppColors.k252525,
+            shape: const RoundedRectangleBorder(
+              borderRadius: BorderRadius.all(
+                Radius.circular(12),
+              ),
+            ),
             title: DropdownButtonHideUnderline(
               child: ButtonTheme(
                 alignedDropdown: true,
@@ -239,8 +244,9 @@ class _GenerateState extends State<Generate> {
                 ),
               ),
             ),
-            contentPadding: const EdgeInsets.symmetric(horizontal: 25),
-          ),
+            contentPadding: EdgeInsets.zero,
+            minVerticalPadding: 0,
+          ).paddingAll(25),
           ListTile(
             contentPadding: const EdgeInsets.symmetric(horizontal: 28),
             title: AppTextField(

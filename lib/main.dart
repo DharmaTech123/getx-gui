@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
@@ -24,8 +25,9 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        brightness: Brightness.light,
-        scaffoldBackgroundColor: AppColors.kEAEEE2,
+        brightness: Brightness.dark,
+        scaffoldBackgroundColor: AppColors.k121212,
+        primarySwatch: Colors.green,
         useMaterial3: true,
       ),
       home: MyHomePage(title: 'Flutter Demo Home Page'),
@@ -51,30 +53,41 @@ class _MyHomePageState extends State<MyHomePage> {
         body: Row(
           children: [
             NavigationRail(
-              backgroundColor: AppColors.kDFE6D5,
+              backgroundColor: AppColors.k101D1B,
+              selectedIconTheme: const IconThemeData(color: AppColors.k00CAA5),
+              useIndicator: false,
+              selectedLabelTextStyle: const TextStyle(
+                color: AppColors.k00CAA5,
+                fontWeight: FontWeight.bold,
+              ),
               selectedIndex: paneIndex(),
               onDestinationSelected: (value) => paneIndex(value),
               extended: true,
+              leading: _buildRailLeading(),
               destinations: const <NavigationRailDestination>[
                 NavigationRailDestination(
                   icon: Icon(Icons.create_new_folder),
                   selectedIcon: Icon(Icons.create_new_folder),
                   label: Text('Create'),
+                  padding: EdgeInsets.only(bottom: 10),
                 ),
                 NavigationRailDestination(
                   icon: Icon(Icons.install_desktop),
                   selectedIcon: Icon(Icons.install_desktop),
                   label: Text('Manage Dependency'),
+                  padding: EdgeInsets.only(bottom: 10),
                 ),
                 NavigationRailDestination(
                   icon: Icon(Icons.sync),
                   selectedIcon: Icon(Icons.sync),
                   label: Text('Generate'),
+                  padding: EdgeInsets.only(bottom: 10),
                 ),
                 NavigationRailDestination(
                   icon: Icon(Icons.image_outlined),
                   selectedIcon: Icon(Icons.image_outlined),
                   label: Text('Manage Assets'),
+                  padding: EdgeInsets.only(bottom: 10),
                 ),
               ],
             ),
@@ -86,11 +99,50 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 
+  Column _buildRailLeading() {
+    return const Column(
+      children: [
+        SizedBox(height: 25),
+        Text(
+          'GETX UI',
+          style: TextStyle(
+            fontSize: 34,
+            color: AppColors.k116D5C,
+          ),
+        ),
+        SizedBox(height: 25),
+      ],
+    );
+  }
+
   Container _buildBody() {
     return Container(
       child: isTaskRunning()
           ? const Center(child: CircularProgressIndicator())
-          : _buildPaneBody(),
+          : Column(
+              children: [
+                ListTile(
+                  tileColor: AppColors.k252525,
+                  leading: const Text(
+                    'Working Directory',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.k00CAA5,
+                    ),
+                  ),
+                  title: Text(
+                    Directory.current.path,
+                    style: const TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.k00CAA5,
+                    ),
+                  ),
+                  contentPadding: const EdgeInsets.symmetric(horizontal: 25),
+                ),
+                SizedBox(height: 10),
+                Expanded(child: _buildPaneBody()),
+              ],
+            ),
     );
   }
 
