@@ -27,7 +27,6 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         brightness: Brightness.dark,
         scaffoldBackgroundColor: AppColors.k121212,
-        primarySwatch: Colors.green,
         useMaterial3: true,
       ),
       home: MyHomePage(title: 'Flutter Demo Home Page'),
@@ -127,19 +126,22 @@ class _MyHomePageState extends State<MyHomePage> {
                     'Working Directory',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
-                      color: AppColors.k00CAA5,
+                      color: AppColors.kffffff,
                     ),
                   ),
-                  title: Text(
-                    Directory.current.path,
-                    style: const TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: AppColors.k00CAA5,
+                  title: Obx(
+                    () => Text(
+                      currentWorkingDirectory(),
+                      style: const TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.kffffff,
+                        fontSize: 12,
+                      ),
                     ),
                   ),
                   contentPadding: const EdgeInsets.symmetric(horizontal: 25),
                 ),
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
                 Expanded(child: _buildPaneBody()),
               ],
             ),

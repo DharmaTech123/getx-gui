@@ -7,6 +7,7 @@ import 'package:getx_gui/modules/ui/components/app_button.dart';
 import 'package:getx_gui/modules/ui/components/app_text_feild.dart';
 import 'package:getx_gui/data/local/app_colors.dart';
 import 'package:getx_gui/modules/models/create_model.dart';
+import 'package:getx_gui/modules/ui/components/choose_location.dart';
 import 'package:getx_gui/modules/ui/task_manager/tasks_list.dart';
 
 class Create extends StatefulWidget {
@@ -34,7 +35,10 @@ class _CreateState extends State<Create> {
                 const ListTile(
                   title: Text(
                     'Create',
-                    style: TextStyle(fontWeight: FontWeight.bold),
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      color: AppColors.k00CAA5,
+                    ),
                   ),
                   contentPadding: EdgeInsets.symmetric(horizontal: 25),
                 ),
@@ -159,9 +163,12 @@ class _CreateState extends State<Create> {
                   return null;
                 },
               ),
-              trailing: TextButton(
-                child: const Text('Choose'),
-                onPressed: () => _chooseFile(),
+              trailing: ChooseLocation(
+                onSubmit: (path) {
+                  setState(() {
+                    widget.locationController.text = path ?? '';
+                  });
+                },
               ),
             ),
             ListTile(
@@ -210,9 +217,12 @@ class _CreateState extends State<Create> {
                   return null;
                 },
               ),
-              trailing: TextButton(
-                child: const Text('Choose'),
-                onPressed: () => _chooseFile(),
+              trailing: ChooseLocation(
+                onSubmit: (path) {
+                  setState(() {
+                    widget.locationController.text = path ?? '';
+                  });
+                },
               ),
             ),
             ListTile(
@@ -246,21 +256,13 @@ class _CreateState extends State<Create> {
               return null;
             },
           ),
-          trailing: TextButton(
-            child: const Text('Choose'),
-            onPressed: () => _chooseFile(),
+          trailing: ChooseLocation(
+            onSubmit: (path) {
+              setState(() {
+                widget.locationController.text = path ?? '';
+              });
+            },
           ),
         ),
       );
-
-  void _chooseFile() async {
-    try {
-      final String? selectedDirectory = await getDirectoryPath();
-      if (selectedDirectory != null) {
-        widget.locationController.text = selectedDirectory ?? '';
-        Directory.current = selectedDirectory;
-        return;
-      }
-    } catch (e) {}
-  }
 }

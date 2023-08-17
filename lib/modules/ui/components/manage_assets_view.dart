@@ -4,9 +4,11 @@ import 'dart:math';
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:getx_gui/data/local/app_colors.dart';
 import 'package:getx_gui/data/models/pubspec_model.dart';
 import 'package:getx_gui/modules/ui/components/app_text_feild.dart';
 import 'package:getx_gui/modules/common/utils/pubspec/pubspec_utils.dart';
+import 'package:getx_gui/modules/ui/components/choose_location.dart';
 
 class ManageAssets extends StatefulWidget {
   ManageAssets({super.key});
@@ -120,7 +122,10 @@ class _ManageAssetsState extends State<ManageAssets> {
   ListTile _buildTitle() => ListTile(
         title: const Text(
           'Assets',
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+            color: AppColors.k00CAA5,
+          ),
         ),
         trailing: TextButton.icon(
           style: const ButtonStyle(
@@ -135,10 +140,14 @@ class _ManageAssetsState extends State<ManageAssets> {
             isSorted()
                 ? Icons.keyboard_arrow_down_rounded
                 : Icons.keyboard_arrow_up_rounded,
+            color: AppColors.k00CAA5,
           ),
           label: const Text(
             'Sort by size',
-            style: TextStyle(fontWeight: FontWeight.bold),
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: AppColors.k00CAA5,
+            ),
           ),
         ),
       );
@@ -155,9 +164,18 @@ class _ManageAssetsState extends State<ManageAssets> {
             return null;
           },
         ),
-        trailing: TextButton(
-          child: const Text('Choose'),
-          onPressed: () => _chooseFile(),
+        trailing: ChooseLocation(
+          onSubmit: (path) {
+            setState(() {
+              locationController.text = path ?? '';
+              Directory.current = path;
+              if (File('pubspec.yaml').existsSync()) {
+                readAssets();
+              } else {
+                Get.rawSnackbar(message: 'pubspec.yaml not found');
+              }
+            });
+          },
         ),
       );
 
@@ -166,28 +184,13 @@ class _ManageAssetsState extends State<ManageAssets> {
           j == 0
               ? Text(
                   fileSizes[i].pubspecItemList[j].directory,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontWeight: FontWeight.w800,
+                    color: AppColors.k00CAA5.withOpacity(0.8),
                   ),
                 )
               : const SizedBox.shrink(),
           j == 0 ? const SizedBox(height: 10) : const SizedBox.shrink(),
         ],
       );
-
-  Future<void> _chooseFile() async {
-    try {
-      final String? selectedDirectory = await getDirectoryPath();
-      if (selectedDirectory != null) {
-        locationController.text = selectedDirectory ?? '';
-        Directory.current = selectedDirectory;
-        if (File('pubspec.yaml').existsSync()) {
-          readAssets();
-        } else {
-          Get.rawSnackbar(message: 'pubspec.yaml not found');
-        }
-        return;
-      }
-    } catch (e) {}
-  }
 }

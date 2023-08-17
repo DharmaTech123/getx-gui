@@ -7,6 +7,7 @@ import 'package:getx_gui/modules/ui/components/app_button.dart';
 import 'package:getx_gui/modules/ui/components/app_text_feild.dart';
 import 'package:getx_gui/data/repository/app_repository.dart';
 import 'package:getx_gui/modules/models/create_model.dart';
+import 'package:getx_gui/modules/ui/components/choose_location.dart';
 
 TextEditingController _inputController = TextEditingController();
 TextEditingController _locationController = TextEditingController();
@@ -47,53 +48,6 @@ Future<String?> showInputDialog({required String title}) async {
                 },
                 title: 'Submit',
               ),
-            ],
-          ),
-        ),
-      ],
-    ),
-  );
-  return result;
-}
-
-Future<String?> showLocationDialog({required String title}) async {
-  String? result;
-  GlobalKey<FormState> formKey = GlobalKey();
-  await showDialog<void>(
-    context: Get.context!,
-    builder: (BuildContext context) => SimpleDialog(
-      title: Text(title),
-      children: [
-        Container(
-          width: Get.width * 0.7,
-          child: Column(
-            children: [
-              Form(
-                key: formKey,
-                child: ListTile(
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 50),
-                  leading: const Text('Project Location'),
-                  title: AppTextField(
-                    controller: _locationController,
-                  ),
-                  trailing: TextButton(
-                    child: const Text('Choose'),
-                    onPressed: () => _chooseFile(),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 40),
-              AppButton(
-                onPressed: () {
-                  if (formKey.currentState?.validate() ?? false) {
-                    result = _locationController.text.trim();
-                    _locationController.clear();
-                    Get.back<void>();
-                  }
-                },
-                title: 'Next',
-              ),
-              const SizedBox(height: 20),
             ],
           ),
         ),
@@ -144,16 +98,4 @@ Future<String?> showInputDialogMenu(
     ),
   );
   return dropdownValue;
-}
-
-void _chooseFile() async {
-  try {
-    final String? selectedDirectory = await getDirectoryPath();
-    if (selectedDirectory != null) {
-      // Operation was canceled by the user.
-      _locationController.text = selectedDirectory ?? '';
-      Directory.current = selectedDirectory;
-      return;
-    }
-  } catch (e) {}
 }

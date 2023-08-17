@@ -9,6 +9,7 @@ import 'package:getx_gui/modules/ui/components/app_text_feild.dart';
 import 'package:getx_gui/data/local/app_colors.dart';
 import 'package:getx_gui/modules/common/utils/pubspec/pubspec_utils.dart';
 import 'package:getx_gui/modules/models/generate_model.dart';
+import 'package:getx_gui/modules/ui/components/choose_location.dart';
 import 'package:getx_gui/modules/ui/task_manager/tasks_list.dart';
 import 'package:pubspec/src/dependency.dart';
 
@@ -43,7 +44,10 @@ class _ManagePackageState extends State<ManagePackage> {
                   const ListTile(
                     title: Text(
                       'Manage Dependency',
-                      style: TextStyle(fontWeight: FontWeight.bold),
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: AppColors.k00CAA5,
+                      ),
                     ),
                     contentPadding: EdgeInsets.symmetric(horizontal: 25),
                   ),
@@ -86,6 +90,7 @@ class _ManagePackageState extends State<ManagePackage> {
                   CheckboxListTile(
                     contentPadding: const EdgeInsets.symmetric(horizontal: 25),
                     controlAffinity: ListTileControlAffinity.leading,
+                    activeColor: AppColors.k00CAA5,
                     title: const Text('Dev Dependency'),
                     value: widget.isDev,
                     onChanged: (value) =>
@@ -140,7 +145,10 @@ class _ManagePackageState extends State<ManagePackage> {
         ListTile(
           title: Text(
             title,
-            style: const TextStyle(fontWeight: FontWeight.bold),
+            style: const TextStyle(
+              fontWeight: FontWeight.bold,
+              color: AppColors.k00CAA5,
+            ),
           ),
         ),
         Column(
@@ -210,9 +218,12 @@ class _ManagePackageState extends State<ManagePackage> {
                 return null;
               },
             ),
-            trailing: TextButton(
-              child: const Text('Choose'),
-              onPressed: () => _chooseFile(),
+            trailing: ChooseLocation(
+              onSubmit: (path) {
+                setState(() {
+                  widget.locationController.text = path ?? '';
+                });
+              },
             ),
           ),
           ListTile(
@@ -231,16 +242,5 @@ class _ManagePackageState extends State<ManagePackage> {
         ],
       ),
     );
-  }
-
-  void _chooseFile() async {
-    try {
-      final String? selectedDirectory = await getDirectoryPath();
-      if (selectedDirectory != null) {
-        widget.locationController.text = selectedDirectory ?? '';
-        Directory.current = selectedDirectory;
-        return;
-      }
-    } catch (e) {}
   }
 }
