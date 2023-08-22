@@ -5,10 +5,10 @@
 // 'flutter create' template.
 
 // The application's name. By default this is also the title of the Flutter window.
-PRODUCT_NAME = log
+PRODUCT_NAME = getx_gui
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = com.example.log
+PRODUCT_BUNDLE_IDENTIFIER = com.example.getxGui
 
 // The copyright displayed in application information
 PRODUCT_COPYRIGHT = Copyright © 2023 com.example. All rights reserved.

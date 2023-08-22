@@ -1,4 +1,4 @@
-# log
+# getx_gui
 
 A new Flutter project.
 

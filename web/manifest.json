@@ -1,6 +1,6 @@
 {
-    "name": "log",
-    "short_name": "log",
+    "name": "getx_gui",
+    "short_name": "getx_gui",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
