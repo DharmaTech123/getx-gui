@@ -269,18 +269,3 @@ class _GenerateState extends State<Generate> {
     );
   }
 }
-
-Widget showGenerateDialog({required String title}) {
-  String? defaultCommand;
-  String? modelSource;
-  GlobalKey<FormState> formKey = GlobalKey();
-  //return _buildGenerateDialog(title, defaultCommand, formKey, modelSource);
-  return SizedBox();
-  /* showDialog(
-    context: Get.context!,
-    useRootNavigator: true,
-    builder: (BuildContext context) {
-      return _buildGenerateDialog(title, defaultCommand, formKey, modelSource);
-    },
-  );*/
-}

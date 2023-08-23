@@ -93,9 +93,6 @@ class _CreateState extends State<Create> {
     if (formKey.currentState?.validate() ?? false) {
       Get.back<void>();
       if (defaultCommand == null) {
-      } else if (defaultCommand.toLowerCase() ==
-          CreateCommandName.project.name) {
-        Task.createProject();
       } else if (defaultCommand.toLowerCase() == CreateCommandName.page.name) {
         Task.createModule(pageName: widget.nameController.text);
       } else if (defaultCommand.toLowerCase() ==
@@ -150,26 +147,6 @@ class _CreateState extends State<Create> {
             ListTile(
               contentPadding: const EdgeInsets.symmetric(horizontal: 28),
               title: AppTextField(
-                label: 'Project Root Location',
-                controller: widget.locationController,
-                validator: (input) {
-                  if (input?.isEmpty ?? false) {
-                    return 'invalid input';
-                  }
-                  return null;
-                },
-              ),
-              trailing: ChooseLocation(
-                onSubmit: (path) {
-                  setState(() {
-                    widget.locationController.text = path ?? '';
-                  });
-                },
-              ),
-            ),
-            ListTile(
-              contentPadding: const EdgeInsets.symmetric(horizontal: 28),
-              title: AppTextField(
                 label: '$defaultCommand Name',
                 controller: widget.nameController,
                 validator: (input) {
@@ -201,26 +178,6 @@ class _CreateState extends State<Create> {
         key: formKey,
         child: Column(
           children: [
-            ListTile(
-              contentPadding: const EdgeInsets.symmetric(horizontal: 28),
-              title: AppTextField(
-                label: 'Project Root Location',
-                controller: widget.locationController,
-                validator: (input) {
-                  if (input?.isEmpty ?? false) {
-                    return 'invalid input';
-                  }
-                  return null;
-                },
-              ),
-              trailing: ChooseLocation(
-                onSubmit: (path) {
-                  setState(() {
-                    widget.locationController.text = path ?? '';
-                  });
-                },
-              ),
-            ),
             ListTile(
               contentPadding: const EdgeInsets.symmetric(horizontal: 28),
               title: AppTextField(

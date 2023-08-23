@@ -9,13 +9,22 @@ class StartUpController extends GetxController {
   RxInt paneIndex = 0.obs;
 
   RxList<ProjectModel> projects = <ProjectModel>[].obs;
+  RxList<ProjectModel> tempProjectsList = <ProjectModel>[].obs;
 
   TextEditingController searchProjectController = TextEditingController();
 
   @override
   void onInit() {
     super.onInit();
+
+    fetchProjects();
+  }
+
+  void fetchProjects() {
     projects(AppStorage.retrieveProjects() ?? []);
+    tempProjectsList(AppStorage.retrieveProjects() ?? []);
+    projects.refresh();
+    tempProjectsList.refresh();
   }
 
   @override
@@ -28,9 +37,19 @@ class StartUpController extends GetxController {
     super.onClose();
   }
 
-  void filterList(String? value) {
-    projects.
+  void filterList(String? keyword) {
+    List<ProjectModel> searchProjectsList = [];
+    if (keyword?.isNotEmpty ?? false) {
+      for (var element in tempProjectsList) {
+        if (element.title.contains(keyword.toString())) {
+          searchProjectsList.add(element);
+        }
+      }
+      projects(searchProjectsList);
+    } else if (keyword?.isEmpty ?? false) {
+      //projects.clear();
+      projects(AppStorage.retrieveProjects() ?? []);
+      tempProjectsList(AppStorage.retrieveProjects() ?? []);
+    }
   }
-
-
 }

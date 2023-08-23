@@ -1,13 +1,11 @@
 import 'dart:io';
 
-import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getx_gui/app/modules/ui/components/app_button.dart';
 import 'package:getx_gui/app/modules/ui/components/app_text_feild.dart';
 
 TextEditingController _inputController = TextEditingController();
-TextEditingController _locationController = TextEditingController();
 
 Future<String?> showInputDialog({required String title}) async {
   String? result;

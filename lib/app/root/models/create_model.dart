@@ -11,7 +11,7 @@ class CreateModel {
   final String? path;
   final String? commandName;
   final List<String> createCommandList = [
-    'Project',
+    // 'Project',
     'Page',
     'Controller',
     'View',

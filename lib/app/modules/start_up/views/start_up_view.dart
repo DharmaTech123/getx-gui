@@ -7,14 +7,19 @@ import 'package:getx_gui/app/data/local/app_colors.dart';
 import 'package:getx_gui/app/data/model/project_model.dart';
 import 'package:getx_gui/app/data/model/storage_helper.dart';
 import 'package:getx_gui/app/data/repository/app_repository.dart';
+import 'package:getx_gui/app/modules/create_project/views/create_project_view.dart';
 import 'package:getx_gui/app/modules/ui/components/app_text_feild.dart';
 import 'package:getx_gui/app/modules/ui/components/create_command_view.dart';
 import 'package:getx_gui/app/routes/app_pages.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../controllers/start_up_controller.dart';
 
 class StartUpView extends GetView<StartUpController> {
   StartUpView({Key? key}) : super(key: key);
+
+  @override
+  StartUpController controller = Get.put(StartUpController());
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +31,12 @@ class StartUpView extends GetView<StartUpController> {
               backgroundColor: AppColors.kffffff,
               useIndicator: false,
               selectedIndex: controller.paneIndex(),
-              onDestinationSelected: (value) => controller.paneIndex(value),
+              onDestinationSelected: (value) {
+                controller.paneIndex(value);
+                if (controller.paneIndex.value == 0) {
+                  controller.fetchProjects();
+                }
+              },
               extended: true,
               leading: _buildRailLeading(),
               destinations: const <NavigationRailDestination>[
@@ -42,7 +52,7 @@ class StartUpView extends GetView<StartUpController> {
                 ),
               ],
             ),
-            const VerticalDivider(thickness: 1, width: 1),
+            VerticalDivider(thickness: 1.w, width: 1.w),
             Expanded(
               child: _buildPaneBody(),
             ),
@@ -54,27 +64,34 @@ class StartUpView extends GetView<StartUpController> {
 
   Container _buildListProjects() {
     return Container(
-      width: Get.width,
-      height: Get.height,
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+      width: Get.width.w,
+      height: Get.height.h,
+      padding: REdgeInsets.symmetric(horizontal: 20),
       child: Column(
         children: [
-          AppTextField(
-              label: 'Search Projects',
-              controller: controller.searchProjectController,
-              validator: (input) {
-                if (input?.isEmpty ?? false) {
-                  return 'invalid input';
-                }
-                return null;
-              },
-              onChanged: (value) {
-                controller.filterList(value);
-              }),
-          const SizedBox(height: 30),
+          Row(
+            children: [
+              Expanded(
+                child: AppTextField(
+                  label: 'Search Projects',
+                  controller: controller.searchProjectController,
+                  validator: (input) {
+                    if (input?.isEmpty ?? false) {
+                      return 'invalid input';
+                    }
+                    return null;
+                  },
+                  onChanged: (value) {
+                    controller.filterList(value);
+                  },
+                ),
+              ),
+            ],
+          ),
+          SizedBox(height: 30.h),
           ListView.separated(
             shrinkWrap: true,
-            separatorBuilder: (context, index) => const SizedBox(height: 10),
+            separatorBuilder: (context, index) => SizedBox(height: 10.h),
             itemBuilder: (context, index) => _buildProjectItem(index),
             itemCount: controller.projects.length,
           ),
@@ -85,64 +102,68 @@ class StartUpView extends GetView<StartUpController> {
 
   Widget _buildPaneBody() {
     if (controller.paneIndex.value == 0) {
-      //return showCreateDialog(title: 'Create');
       return _buildListProjects();
     } else if (controller.paneIndex.value == 1) {
-      //return showGenerateDialog(title: 'Generate');
-      return Create();
+      return CreateProjectView();
     } else {
       return const SizedBox.shrink();
     }
   }
 
   Widget _buildProjectItem(int index) {
-    return InkWell(
-      onTap: () {
-        Directory.current = controller.projects[index].location;
-        currentWorkingDirectory(controller.projects[index].location);
-        Get.toNamed(Routes.HOME);
-      },
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
+    return Column(
+      children: [
+        ListTile(
+          onTap: () {
+            Directory.current = controller.projects[index].location;
+            currentWorkingDirectory(controller.projects[index].location);
+            Get.offNamed(Routes.HOME);
+          },
+          horizontalTitleGap: 0,
+          leading: const Icon(Icons.folder_copy_outlined),
+          title: Text(
             controller.projects[index].title,
-            style: const TextStyle(
+            style: TextStyle(
               color: Colors.black,
-              fontSize: 14,
+              fontSize: 14.sp,
               fontWeight: FontWeight.w400,
               decoration: TextDecoration.none,
             ),
           ),
-          Text(
+          subtitle: Text(
             controller.projects[index].location,
-            style: const TextStyle(
+            style: TextStyle(
               color: Colors.black54,
-              fontSize: 14,
+              fontSize: 14.sp,
               fontWeight: FontWeight.w400,
               decoration: TextDecoration.none,
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
   Column _buildRailLeading() {
     return Column(
       children: [
-        SizedBox(height: 25),
+        SizedBox(height: 25.h),
         Row(
           children: [
-            Text(
-              'GETX UI',
-              style: TextStyle(
-                fontSize: 34,
+            InkWell(
+              onTap: () {
+                AppStorage.clearData();
+              },
+              child: Text(
+                'GETX UI',
+                style: TextStyle(
+                  fontSize: 34.sp,
+                ),
               ),
             ),
           ],
         ),
-        SizedBox(height: 25),
+        SizedBox(height: 25.h),
       ],
     );
   }

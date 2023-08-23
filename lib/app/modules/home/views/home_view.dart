@@ -3,10 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getx_gui/app/data/local/app_colors.dart';
 import 'package:getx_gui/app/data/repository/app_repository.dart';
+import 'package:getx_gui/app/modules/create_command/views/create_command_view.dart';
+import 'package:getx_gui/app/modules/generate/views/generate_view.dart';
+import 'package:getx_gui/app/modules/manage_assets/views/manage_assets_view.dart';
+import 'package:getx_gui/app/modules/manage_dependency/views/manage_dependency_view.dart';
 import 'package:getx_gui/app/modules/ui/components/create_command_view.dart';
 import 'package:getx_gui/app/modules/ui/components/generate_command_view.dart';
 import 'package:getx_gui/app/modules/ui/components/manage_assets_view.dart';
 import 'package:getx_gui/app/modules/ui/components/manage_dependency.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:getx_gui/app/routes/app_pages.dart';
 
 import '../controllers/home_controller.dart';
 
@@ -18,42 +24,61 @@ class HomeView extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return Obx(
       () => Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          leading: IconButton(
+            onPressed: () => Get.offNamed(Routes.START_UP),
+            icon: const Icon(
+              Icons.arrow_back_ios,
+              color: Colors.black,
+            ),
+          ),
+          centerTitle: true,
+          title: ListTile(
+            trailing: Obx(
+              () => Text(
+                currentWorkingDirectory(),
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 12.sp,
+                ),
+              ),
+            ),
+          ),
+        ),
         body: Row(
           children: [
             NavigationRail(
               useIndicator: false,
               selectedIndex: paneIndex(),
-              onDestinationSelected: (value) => paneIndex(value),
               extended: true,
+              onDestinationSelected: (value) => paneIndex(value),
               leading: _buildRailLeading(),
               destinations: const <NavigationRailDestination>[
                 NavigationRailDestination(
                   icon: Icon(Icons.create_new_folder),
                   selectedIcon: Icon(Icons.create_new_folder),
                   label: Text('Create'),
-                  padding: EdgeInsets.only(bottom: 10),
                 ),
                 NavigationRailDestination(
                   icon: Icon(Icons.install_desktop),
                   selectedIcon: Icon(Icons.install_desktop),
                   label: Text('Manage Dependency'),
-                  padding: EdgeInsets.only(bottom: 10),
                 ),
                 NavigationRailDestination(
                   icon: Icon(Icons.sync),
                   selectedIcon: Icon(Icons.sync),
                   label: Text('Generate'),
-                  padding: EdgeInsets.only(bottom: 10),
                 ),
                 NavigationRailDestination(
                   icon: Icon(Icons.image_outlined),
                   selectedIcon: Icon(Icons.image_outlined),
                   label: Text('Manage Assets'),
-                  padding: EdgeInsets.only(bottom: 10),
                 ),
               ],
             ),
-            const VerticalDivider(thickness: 1, width: 1),
+            VerticalDivider(thickness: 1.w, width: 1.w),
             Expanded(child: _buildBody()),
           ],
         ),
@@ -64,24 +89,14 @@ class HomeView extends GetView<HomeController> {
   Column _buildRailLeading() {
     return Column(
       children: [
-        SizedBox(height: 25),
-        Row(
-          children: [
-            IconButton(
-              onPressed: () => Get.back<void>(),
-              icon: Icon(
-                Icons.arrow_back_ios,
-              ),
-            ),
-            Text(
-              'GETX UI',
-              style: TextStyle(
-                fontSize: 34,
-              ),
-            ),
-          ],
+        SizedBox(height: 25.h),
+        Text(
+          'GETX UI',
+          style: TextStyle(
+            fontSize: 34.sp,
+          ),
         ),
-        SizedBox(height: 25),
+        SizedBox(height: 25.h),
       ],
     );
   }
@@ -92,25 +107,7 @@ class HomeView extends GetView<HomeController> {
           ? const Center(child: CircularProgressIndicator())
           : Column(
               children: [
-                ListTile(
-                  leading: const Text(
-                    'Working Directory',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  title: Obx(
-                    () => Text(
-                      currentWorkingDirectory(),
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 12,
-                      ),
-                    ),
-                  ),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 25),
-                ),
-                const SizedBox(height: 10),
+                SizedBox(height: 10.h),
                 Expanded(child: _buildPaneBody()),
               ],
             ),
@@ -119,17 +116,13 @@ class HomeView extends GetView<HomeController> {
 
   Widget _buildPaneBody() {
     if (paneIndex.value == 0) {
-      //return showCreateDialog(title: 'Create');
-      return Create();
+      return CreateCommandView();
     } else if (paneIndex.value == 1) {
-      //return showGenerateDialog(title: 'Generate');
-      return ManagePackage();
+      return ManageDependencyView();
     } else if (paneIndex.value == 2) {
-      //return showManagePackageDialog(title: 'Manage Package');
-      return Generate();
+      return GenerateView();
     } else if (paneIndex.value == 3) {
-      //return showManagePackageDialog(title: 'Manage Package');
-      return ManageAssets();
+      return ManageAssetsView();
     } else {
       return const SizedBox.shrink();
     }
