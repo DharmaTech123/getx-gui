@@ -54,7 +54,16 @@ class StartUpView extends GetView<StartUpController> {
             ),
             VerticalDivider(thickness: 1.w, width: 1.w),
             Expanded(
-              child: _buildPaneBody(),
+              child: Column(
+                children: [
+                  isTaskRunning()
+                      ? const Center(child: LinearProgressIndicator())
+                      : const SizedBox.shrink(),
+                  Expanded(
+                    child: _buildPaneBody(),
+                  ),
+                ],
+              ),
             ),
           ],
         ),
@@ -86,15 +95,22 @@ class StartUpView extends GetView<StartUpController> {
                   },
                 ),
               ),
+              TextButton(
+                onPressed: () => AppStorage.clearData(),
+                child: const Text('Clear'),
+              ),
             ],
           ),
           SizedBox(height: 30.h),
-          ListView.separated(
-            shrinkWrap: true,
-            separatorBuilder: (context, index) => SizedBox(height: 10.h),
-            itemBuilder: (context, index) => _buildProjectItem(index),
-            itemCount: controller.projects.length,
+          Expanded(
+            child: ListView.separated(
+              shrinkWrap: true,
+              separatorBuilder: (context, index) => SizedBox(height: 10.h),
+              itemBuilder: (context, index) => _buildProjectItem(index),
+              itemCount: controller.projects.length,
+            ),
           ),
+          SizedBox(height: 30.h),
         ],
       ),
     );

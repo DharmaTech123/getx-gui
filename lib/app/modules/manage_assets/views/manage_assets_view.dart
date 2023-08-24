@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
 import 'package:getx_gui/app/modules/ui/components/app_text_feild.dart';
@@ -17,57 +18,71 @@ class ManageAssetsView extends GetView<ManageAssetsController> {
   @override
   Widget build(BuildContext context) => Obx(
         () => Scaffold(
-          body: ListView(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  _buildLocationInput(),
-                  const SizedBox(height: 20),
-                  _buildTitle(),
-                  _buildAssetsList(),
-                  const SizedBox(height: 20),
-                ],
-              ),
-            ],
+          body: SizedBox(
+            width: Get.width,
+            height: Get.height,
+            child: ListView(
+              children: [
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildLocationInput(),
+                    SizedBox(height: 20.h),
+                    _buildTitle(),
+                    _buildAssetsList(),
+                    SizedBox(height: 20.h),
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       );
 
-  Container _buildAssetsList() => Container(
-        padding: const EdgeInsets.symmetric(horizontal: 50),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: List.generate(
-            controller.fileSizes.length,
-            (int i) => Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: List.generate(
-                controller.fileSizes[i].pubspecItemList.length,
-                (int j) => Column(
+  Widget _buildAssetsList() => Obx(
+        () => controller.fileSizes.isEmpty
+            ? const SizedBox.shrink()
+            : Container(
+                padding: REdgeInsets.symmetric(horizontal: 50),
+                child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    _buildDirectoryName(j, i),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(controller
-                            .fileSizes[i].pubspecItemList[j].fileName),
-                        Text(
-                          controller.getFileSizeString(
-                            bytes: controller
-                                .fileSizes[i].pubspecItemList[j].fileSize,
-                            decimals: 2,
-                          ),
-                        )
-                      ],
-                    ).paddingSymmetric(horizontal: 30),
-                  ],
-                ).paddingSymmetric(vertical: 10),
+                  children: List.generate(
+                    controller.fileSizes.length,
+                    (int i) => Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: List.generate(
+                        controller.fileSizes[i].pubspecItemList.length,
+                        (int j) => SizedBox(
+                          width: Get.width,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              _buildDirectoryName(j, i),
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Expanded(
+                                    child: Text(controller.fileSizes[i]
+                                        .pubspecItemList[j].fileName),
+                                  ),
+                                  Text(
+                                    controller.getFileSizeString(
+                                      bytes: controller.fileSizes[i]
+                                          .pubspecItemList[j].fileSize,
+                                      decimals: 2,
+                                    ),
+                                  )
+                                ],
+                              ).paddingSymmetric(horizontal: 30.h),
+                            ],
+                          ).paddingSymmetric(vertical: 10.h),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               ),
-            ),
-          ),
-        ),
       );
 
   ListTile _buildTitle() => ListTile(
@@ -116,6 +131,7 @@ class ManageAssetsView extends GetView<ManageAssetsController> {
             controller.locationController.text = path ?? '';
             Directory.current = path;
             if (File('pubspec.yaml').existsSync()) {
+              print('reading assets ${Directory.current}');
               controller.readAssets();
             } else {
               Get.rawSnackbar(message: 'pubspec.yaml not found');
@@ -134,7 +150,7 @@ class ManageAssetsView extends GetView<ManageAssetsController> {
                   ),
                 )
               : const SizedBox.shrink(),
-          j == 0 ? const SizedBox(height: 10) : const SizedBox.shrink(),
+          j == 0 ? SizedBox(height: 10.h) : const SizedBox.shrink(),
         ],
       );
 }

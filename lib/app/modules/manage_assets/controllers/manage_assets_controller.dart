@@ -4,12 +4,12 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getx_gui/app/data/model/pubspec_model.dart';
+import 'package:getx_gui/app/modules/ui/task_manager/tasks_list.dart';
 import 'package:getx_gui/app/root/common/utils/pubspec/pubspec_utils.dart';
 
 class ManageAssetsController extends GetxController {
   //TODO: Implement ManageAssetsController
 
-  Map<dynamic, dynamic>? assets = PubspecUtils.pubSpec.unParsedYaml;
   RxList<PubspecDirectory> fileSizes = <PubspecDirectory>[].obs;
   final TextEditingController locationController = TextEditingController();
   RxBool isSorted = false.obs;
@@ -19,6 +19,7 @@ class ManageAssetsController extends GetxController {
     super.onInit();
 
     if (File('pubspec.yaml').existsSync()) {
+      print('debug print abc ${PubspecUtils.pubSpec.unParsedYaml}');
       readAssets();
     } else {
       Get.rawSnackbar(message: 'pubspec.yaml not found');
@@ -36,18 +37,18 @@ class ManageAssetsController extends GetxController {
   }
 
   void readAssets() {
+    Task.showLoader();
     fileSizes.clear();
+    Map<dynamic, dynamic>? assets = PubspecUtils.pubSpec.unParsedYaml;
     if (assets != null) {
-      if (assets!['flutter'] != null) {
-        if (assets!['flutter']['assets'] != null) {
+      if (assets['flutter'] != null) {
+        if (assets['flutter']['assets'] != null) {
           fileSizes(PubspecModel.readAssets());
+          fileSizes.refresh();
         }
       }
     }
-    print('debug print ${assets}');
-    print('debug print ${assets!['flutter']}');
-    print('debug print ${assets!['flutter']['assets']}');
-    print('debug print ${fileSizes.length}');
+    Task.hideLoader();
   }
 
   void sortBySize() {

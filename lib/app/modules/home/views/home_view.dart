@@ -101,16 +101,15 @@ class HomeView extends GetView<HomeController> {
     );
   }
 
-  Container _buildBody() {
-    return Container(
-      child: isTaskRunning()
-          ? const Center(child: CircularProgressIndicator())
-          : Column(
-              children: [
-                SizedBox(height: 10.h),
-                Expanded(child: _buildPaneBody()),
-              ],
-            ),
+  Widget _buildBody() {
+    return Column(
+      children: [
+        isTaskRunning()
+            ? const Center(child: LinearProgressIndicator())
+            : const SizedBox.shrink(),
+        SizedBox(height: 10.h),
+        Expanded(child: _buildPaneBody()),
+      ],
     );
   }
 
