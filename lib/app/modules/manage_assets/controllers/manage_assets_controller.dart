@@ -11,7 +11,6 @@ class ManageAssetsController extends GetxController {
   //TODO: Implement ManageAssetsController
 
   RxList<PubspecDirectory> fileSizes = <PubspecDirectory>[].obs;
-  final TextEditingController locationController = TextEditingController();
   RxBool isSorted = false.obs;
 
   @override
@@ -37,18 +36,22 @@ class ManageAssetsController extends GetxController {
   }
 
   void readAssets() {
-    Task.showLoader();
-    fileSizes.clear();
-    Map<dynamic, dynamic>? assets = PubspecUtils.pubSpec.unParsedYaml;
-    if (assets != null) {
-      if (assets['flutter'] != null) {
-        if (assets['flutter']['assets'] != null) {
-          fileSizes(PubspecModel.readAssets());
-          fileSizes.refresh();
+    try {
+      Task.showLoader();
+      fileSizes.clear();
+      Map<dynamic, dynamic>? assets = PubspecUtils.pubSpec.unParsedYaml;
+      if (assets != null) {
+        if (assets['flutter'] != null) {
+          if (assets['flutter']['assets'] != null) {
+            fileSizes(PubspecModel.readAssets());
+            fileSizes.refresh();
+          }
         }
       }
+    } catch (e) {
+      Task.hideLoader();
+      Get.rawSnackbar(message: e.toString());
     }
-    Task.hideLoader();
   }
 
   void sortBySize() {

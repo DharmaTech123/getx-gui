@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:getx_gui/app/modules/ui/task_manager/tasks_list.dart';
 import 'package:getx_gui/app/root/common/utils/pubspec/pubspec_utils.dart';
 import 'package:getx_gui/app/root/models/generate_model.dart';
+import 'package:pubspec/pubspec.dart';
 
 class ManageDependencyController extends GetxController {
   //TODO: Implement ManageDependencyController
@@ -11,11 +13,23 @@ class ManageDependencyController extends GetxController {
   RxString defaultCommand = 'Install'.obs;
   RxBool isDev = false.obs;
   GlobalKey<FormState> formKey = GlobalKey();
-  var dependenciesList = PubspecUtils.pubSpec.dependencies;
+  PubSpec? pubSpec;
 
   @override
   void onInit() {
     super.onInit();
+    loadPubSpecData();
+  }
+
+  void loadPubSpecData() {
+    try {
+      Task.showLoader();
+      pubSpec = PubspecUtils.pubSpec;
+    } catch (e) {
+      Task.hideLoader();
+      pubSpec = null;
+      Get.rawSnackbar(message: e.toString());
+    }
   }
 
   @override

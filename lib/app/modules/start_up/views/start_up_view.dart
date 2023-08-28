@@ -9,7 +9,9 @@ import 'package:getx_gui/app/data/model/storage_helper.dart';
 import 'package:getx_gui/app/data/repository/app_repository.dart';
 import 'package:getx_gui/app/modules/create_project/views/create_project_view.dart';
 import 'package:getx_gui/app/modules/ui/components/app_text_feild.dart';
+import 'package:getx_gui/app/modules/ui/components/choose_location.dart';
 import 'package:getx_gui/app/modules/ui/components/create_command_view.dart';
+import 'package:getx_gui/app/modules/ui/task_manager/tasks_list.dart';
 import 'package:getx_gui/app/routes/app_pages.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -41,14 +43,14 @@ class StartUpView extends GetView<StartUpController> {
               leading: _buildRailLeading(),
               destinations: const <NavigationRailDestination>[
                 NavigationRailDestination(
-                  icon: Icon(Icons.install_desktop),
-                  selectedIcon: Icon(Icons.install_desktop),
+                  icon: Icon(Icons.folder_open),
+                  selectedIcon: Icon(Icons.folder),
                   label: Text('Projects'),
                 ),
                 NavigationRailDestination(
-                  icon: Icon(Icons.create_new_folder),
-                  selectedIcon: Icon(Icons.create_new_folder),
-                  label: Text('New Project'),
+                  icon: Icon(Icons.info_outline),
+                  selectedIcon: Icon(Icons.info),
+                  label: Text('Learn GetX'),
                 ),
               ],
             ),
@@ -95,8 +97,25 @@ class StartUpView extends GetView<StartUpController> {
                   },
                 ),
               ),
+              ChooseLocation(
+                label: 'New Project',
+                onSubmit: (path) {
+                  controller.onclickNewProject();
+                },
+              ),
+              ChooseLocation(
+                label: 'Open',
+                onSubmit: (path) {
+                  Directory.current = path;
+                  currentWorkingDirectory(path);
+                  Get.offNamed(Routes.HOME);
+                },
+              ),
               TextButton(
-                onPressed: () => AppStorage.clearData(),
+                onPressed: () {
+                  AppStorage.clearData();
+                  controller.projects.clear();
+                },
                 child: const Text('Clear'),
               ),
             ],
@@ -119,8 +138,6 @@ class StartUpView extends GetView<StartUpController> {
   Widget _buildPaneBody() {
     if (controller.paneIndex.value == 0) {
       return _buildListProjects();
-    } else if (controller.paneIndex.value == 1) {
-      return CreateProjectView();
     } else {
       return const SizedBox.shrink();
     }
@@ -131,17 +148,33 @@ class StartUpView extends GetView<StartUpController> {
       children: [
         ListTile(
           onTap: () {
-            Directory.current = controller.projects[index].location;
-            currentWorkingDirectory(controller.projects[index].location);
-            Get.offNamed(Routes.HOME);
+            _openProject(index);
           },
-          horizontalTitleGap: 0,
-          leading: const Icon(Icons.folder_copy_outlined),
+          //horizontalTitleGap: 0,
+          visualDensity: VisualDensity.compact,
+          minVerticalPadding: 0,
+          contentPadding: EdgeInsets.zero,
+          titleAlignment: ListTileTitleAlignment.center,
+          leading: Container(
+            height: 30.h,
+            width: 30.w,
+            color: Colors.blueGrey,
+            child: Center(
+              child: Text(
+                controller.projects[index].title[0].toUpperCase(),
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                  fontSize: 18.sp,
+                ),
+              ),
+            ),
+          ),
           title: Text(
             controller.projects[index].title,
             style: TextStyle(
               color: Colors.black,
-              fontSize: 14.sp,
+              fontSize: 18.sp,
               fontWeight: FontWeight.w400,
               decoration: TextDecoration.none,
             ),
@@ -150,7 +183,7 @@ class StartUpView extends GetView<StartUpController> {
             controller.projects[index].location,
             style: TextStyle(
               color: Colors.black54,
-              fontSize: 14.sp,
+              fontSize: 12.sp,
               fontWeight: FontWeight.w400,
               decoration: TextDecoration.none,
             ),
@@ -160,24 +193,27 @@ class StartUpView extends GetView<StartUpController> {
     );
   }
 
+  void _openProject(int index) {
+    try {
+      Directory.current = controller.projects[index].location;
+      currentWorkingDirectory(controller.projects[index].location);
+      Get.offNamed(Routes.HOME);
+    } catch (e) {
+      Get.rawSnackbar(
+        message: e.toString(),
+      );
+    }
+  }
+
   Column _buildRailLeading() {
     return Column(
       children: [
         SizedBox(height: 25.h),
-        Row(
-          children: [
-            InkWell(
-              onTap: () {
-                AppStorage.clearData();
-              },
-              child: Text(
-                'GETX UI',
-                style: TextStyle(
-                  fontSize: 34.sp,
-                ),
-              ),
-            ),
-          ],
+        Text(
+          'GETX UI',
+          style: TextStyle(
+            fontSize: 34.sp,
+          ),
         ),
         SizedBox(height: 25.h),
       ],

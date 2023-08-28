@@ -6,10 +6,12 @@ class AppTextField extends StatelessWidget {
     this.label,
     this.validator,
     this.onChanged,
+    this.suffix,
     required this.controller,
   });
 
   String? label;
+  Widget? suffix;
   TextEditingController controller;
   Function(String? input)? validator;
   Function(String? input)? onChanged;
@@ -19,6 +21,7 @@ class AppTextField extends StatelessWidget {
     return TextFormField(
       decoration: InputDecoration(
         label: label != null ? Text(label.toString()) : null,
+        suffix: suffix,
       ),
       controller: controller,
       validator: (value) => validator?.call(value),

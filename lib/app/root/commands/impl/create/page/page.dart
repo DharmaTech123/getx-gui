@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:getx_gui/app/modules/ui/components/input_dialog.dart';
 import 'package:recase/recase.dart';
 
 import '../../../../common/menu/menu.dart';
@@ -34,7 +35,7 @@ class CreatePageCommand extends Command {
     if (name.isEmpty || isProject) {
       name = 'home';
     }
-    checkForAlreadyExists(name);
+    await checkForAlreadyExists(name);
   }
 
   @override
@@ -48,9 +49,9 @@ class CreatePageCommand extends Command {
     pathSplit.removeLast();
     var path = pathSplit.join('/');
     path = Structure.replaceAsExpected(path: path);
-    Directory(path).createSync(recursive: true);
-    _writeFiles(path, name!, overwrite: false);
-    /*if (Directory(path).existsSync()) {
+    //Directory(path).createSync(recursive: true);
+    //_writeFiles(path, name!, overwrite: false);
+    if (Directory(path).existsSync()) {
       final menu = Menu(
         [
           LocaleKeys.options_yes.tr,
@@ -62,7 +63,6 @@ class CreatePageCommand extends Command {
       );
 
       final result = await menu.choose();
-
       if (result.index == 0) {
         _writeFiles(path, name!, overwrite: true);
       } else if (result.index == 2) {
@@ -71,12 +71,12 @@ class CreatePageCommand extends Command {
         //dialog.addQuestion(LocaleKeys.ask_new_page_name.tr, 'name');
         //name = dialog.ask()['name'] as String?;
         //var name = ask(LocaleKeys.ask_new_page_name.tr);
-        checkForAlreadyExists(name?.trim().snakeCase);
+        await checkForAlreadyExists(name?.trim().snakeCase);
       }
     } else {
       Directory(path).createSync(recursive: true);
       _writeFiles(path, name!, overwrite: false);
-    }*/
+    }
   }
 
   void _writeFiles(String path, String name, {bool overwrite = false}) {

@@ -16,7 +16,6 @@ class Menu {
 
     // final answer = dialog.ask();
     // final result = answer['result'] as String;
-    print("");
     //final result = menu(prompt: title, options: choices, defaultOption: choices[0]);
 
     final result = await showInputDialogMenu(

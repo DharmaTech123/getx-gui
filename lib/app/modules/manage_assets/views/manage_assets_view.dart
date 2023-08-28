@@ -26,8 +26,6 @@ class ManageAssetsView extends GetView<ManageAssetsController> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _buildLocationInput(),
-                    SizedBox(height: 20.h),
                     _buildTitle(),
                     _buildAssetsList(),
                     SizedBox(height: 20.h),
@@ -86,6 +84,7 @@ class ManageAssetsView extends GetView<ManageAssetsController> {
       );
 
   ListTile _buildTitle() => ListTile(
+        contentPadding: const EdgeInsets.symmetric(horizontal: 25),
         title: const Text(
           'Assets',
           style: TextStyle(
@@ -112,31 +111,6 @@ class ManageAssetsView extends GetView<ManageAssetsController> {
               fontWeight: FontWeight.bold,
             ),
           ),
-        ),
-      );
-
-  ListTile _buildLocationInput() => ListTile(
-        title: AppTextField(
-          label: 'Select Project Location',
-          controller: controller.locationController,
-          validator: (String? input) {
-            if (input?.isEmpty ?? false) {
-              return 'invalid input';
-            }
-            return null;
-          },
-        ),
-        trailing: ChooseLocation(
-          onSubmit: (path) {
-            controller.locationController.text = path ?? '';
-            Directory.current = path;
-            if (File('pubspec.yaml').existsSync()) {
-              print('reading assets ${Directory.current}');
-              controller.readAssets();
-            } else {
-              Get.rawSnackbar(message: 'pubspec.yaml not found');
-            }
-          },
         ),
       );
 

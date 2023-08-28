@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
@@ -5,14 +7,20 @@ import 'package:getx_gui/app/data/local/app_colors.dart';
 import 'package:getx_gui/app/data/repository/app_repository.dart';
 import 'package:getx_gui/app/modules/create_command/views/create_command_view.dart';
 import 'package:getx_gui/app/modules/generate/views/generate_view.dart';
+import 'package:getx_gui/app/modules/manage_assets/controllers/manage_assets_controller.dart';
 import 'package:getx_gui/app/modules/manage_assets/views/manage_assets_view.dart';
+import 'package:getx_gui/app/modules/manage_dependency/controllers/manage_dependency_controller.dart';
 import 'package:getx_gui/app/modules/manage_dependency/views/manage_dependency_view.dart';
+import 'package:getx_gui/app/modules/ui/components/choose_location.dart';
 import 'package:getx_gui/app/modules/ui/components/create_command_view.dart';
 import 'package:getx_gui/app/modules/ui/components/generate_command_view.dart';
 import 'package:getx_gui/app/modules/ui/components/manage_assets_view.dart';
 import 'package:getx_gui/app/modules/ui/components/manage_dependency.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:getx_gui/app/modules/ui/task_manager/tasks_list.dart';
+import 'package:getx_gui/app/root/common/utils/pubspec/pubspec_utils.dart';
 import 'package:getx_gui/app/routes/app_pages.dart';
+import 'package:path/path.dart' as p;
 
 import '../controllers/home_controller.dart';
 
@@ -24,36 +32,16 @@ class HomeView extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return Obx(
       () => Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.white,
-          elevation: 0,
-          leading: IconButton(
-            onPressed: () => Get.offNamed(Routes.START_UP),
-            icon: const Icon(
-              Icons.arrow_back_ios,
-              color: Colors.black,
-            ),
-          ),
-          centerTitle: true,
-          title: ListTile(
-            trailing: Obx(
-              () => Text(
-                currentWorkingDirectory(),
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 12.sp,
-                ),
-              ),
-            ),
-          ),
-        ),
         body: Row(
           children: [
             NavigationRail(
               useIndicator: false,
               selectedIndex: paneIndex(),
               extended: true,
-              onDestinationSelected: (value) => paneIndex(value),
+              onDestinationSelected: (value) {
+                Task.hideLoader();
+                paneIndex(value);
+              },
               leading: _buildRailLeading(),
               destinations: const <NavigationRailDestination>[
                 NavigationRailDestination(
@@ -90,15 +78,34 @@ class HomeView extends GetView<HomeController> {
     return Column(
       children: [
         SizedBox(height: 25.h),
-        Text(
-          'GETX UI',
-          style: TextStyle(
-            fontSize: 34.sp,
+        ChooseLocation(
+          child: FittedBox(
+            child: Text(
+              controller.projectName(),
+              style: TextStyle(
+                fontSize: 18.sp,
+              ),
+            ),
           ),
+          onSubmit: (path) => openProjectAndReloadData(path),
         ),
         SizedBox(height: 25.h),
       ],
     );
+  }
+
+  void openProjectAndReloadData(String path) {
+    try {
+      Directory.current = path;
+      currentWorkingDirectory(path);
+      controller.projectName(p.basename(Directory.current.path));
+      PubspecUtils().loadFile(File('pubspec.yaml'));
+      Get.find<ManageAssetsController>().readAssets();
+      Get.find<ManageDependencyController>().loadPubSpecData();
+    } catch (e) {
+    } finally {
+      Task.hideLoader();
+    }
   }
 
   Widget _buildBody() {
@@ -107,6 +114,17 @@ class HomeView extends GetView<HomeController> {
         isTaskRunning()
             ? const Center(child: LinearProgressIndicator())
             : const SizedBox.shrink(),
+        ListTile(
+          trailing: Obx(
+            () => Text(
+              currentWorkingDirectory(),
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 12.sp,
+              ),
+            ),
+          ),
+        ),
         SizedBox(height: 10.h),
         Expanded(child: _buildPaneBody()),
       ],

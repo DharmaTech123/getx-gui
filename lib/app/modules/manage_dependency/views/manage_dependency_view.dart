@@ -91,28 +91,31 @@ class ManageDependencyView extends GetView<ManageDependencyController> {
                   ],
                 ),
                 const SizedBox(height: 40),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    const SizedBox(height: 20),
-                    _buildListDependencies(
-                      title: 'Dependencies',
-                      dependencies: PubspecUtils.pubSpec.dependencies,
-                    ),
-                    const SizedBox(height: 20),
-                    _buildListDependencies(
-                      title: 'Dev Dependencies',
-                      dependencies: PubspecUtils.pubSpec.devDependencies,
-                    ),
-                    const SizedBox(height: 20),
-                    _buildListDependencies(
-                      title: 'Dependency Overrides',
-                      dependencies: PubspecUtils.pubSpec.dependencyOverrides,
-                    ),
-                    const SizedBox(height: 20),
-                  ],
-                ),
+                controller.pubSpec != null
+                    ? Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          const SizedBox(height: 20),
+                          _buildListDependencies(
+                            title: 'Dependencies',
+                            dependencies: controller.pubSpec!.dependencies,
+                          ),
+                          const SizedBox(height: 20),
+                          _buildListDependencies(
+                            title: 'Dev Dependencies',
+                            dependencies: controller.pubSpec!.devDependencies,
+                          ),
+                          const SizedBox(height: 20),
+                          _buildListDependencies(
+                            title: 'Dependency Overrides',
+                            dependencies:
+                                controller.pubSpec!.dependencyOverrides,
+                          ),
+                          const SizedBox(height: 20),
+                        ],
+                      )
+                    : const SizedBox.shrink(),
               ],
             ),
           ],

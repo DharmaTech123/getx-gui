@@ -69,6 +69,7 @@ class CreateProjectView extends GetView<CreateProjectController> {
             },
           ),
           trailing: ChooseLocation(
+            label: 'Choose',
             onSubmit: (path) {
               controller.locationController.text = path ?? '';
             },

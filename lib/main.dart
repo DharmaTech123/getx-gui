@@ -7,6 +7,7 @@ import 'package:get_storage/get_storage.dart';
 import 'app/routes/app_pages.dart';
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await GetStorage.init();
   runApp(
     ScreenUtilInit(
@@ -18,6 +19,9 @@ Future<void> main() async {
         title: "Application",
         initialRoute: AppPages.INITIAL,
         getPages: AppPages.routes,
+        theme: ThemeData(
+          useMaterial3: true,
+        ),
       ),
     ),
   );

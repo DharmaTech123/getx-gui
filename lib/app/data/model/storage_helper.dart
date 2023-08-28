@@ -22,15 +22,18 @@ class AppStorage {
               (model) => ProjectModel.fromJson(model),
             ),
           );
-    projects.add(ProjectModel(
-      title: title,
-      location: location,
-    ));
+    if (projects.indexWhere((element) => element.location == location) == -1) {
+      projects.add(ProjectModel(
+        title: title,
+        location: location,
+      ));
 
-    String encodedProjectList =
-        jsonEncode(projects.map((model) => model.toJson()).toList()).toString();
+      String encodedProjectList =
+          jsonEncode(projects.map((model) => model.toJson()).toList())
+              .toString();
 
-    setData(encodedProjectList);
+      setData(encodedProjectList);
+    }
   }
 
   static List<ProjectModel>? retrieveProjects() {

@@ -2,18 +2,24 @@ import 'dart:io';
 
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:getx_gui/app/data/local/app_colors.dart';
 import 'package:getx_gui/app/data/repository/app_repository.dart';
 
 class ChooseLocation extends StatelessWidget {
   Function(String) onSubmit;
+  String? label;
+  Widget? child;
 
-  ChooseLocation({super.key, required this.onSubmit});
+  ChooseLocation({super.key, required this.onSubmit, this.label, this.child});
 
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      child: const Text('Choose'),
+      child: child ??
+          Text(
+            label ?? 'Choose',
+          ),
       onPressed: () => _chooseFile(),
     );
   }
