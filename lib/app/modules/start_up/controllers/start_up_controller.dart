@@ -1,8 +1,11 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getx_gui/app/data/model/project_model.dart';
 import 'package:getx_gui/app/data/model/storage_helper.dart';
 import 'package:getx_gui/app/modules/ui/task_manager/tasks_list.dart';
+import 'package:process_run/shell.dart';
 
 class StartUpController extends GetxController {
   //TODO: Implement StartUpController
@@ -29,6 +32,15 @@ class StartUpController extends GetxController {
   }
 
   Future<void> onclickNewProject() async {
+    /*  Process.start(
+      'Powershell.exe -NoProfile -ExecutionPolicy unrestricted',
+      ['get create project'],
+      runInShell: true,
+      mode: ProcessStartMode.detached,
+      //includeParentEnvironment: true,
+    );*/
+    //Process.runSync('Powershell.exe', ['get create project'], runInShell: true);
+    //await run('get create project', runInShell: true);
     await Task.createProject();
     fetchProjects();
   }

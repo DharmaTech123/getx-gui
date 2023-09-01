@@ -26,6 +26,7 @@ class ManageAssetsView extends GetView<ManageAssetsController> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    //Image.asset('assets/apple_logo.png'),
                     _buildTitle(),
                     _buildAssetsList(),
                     SizedBox(height: 20.h),
@@ -41,47 +42,84 @@ class ManageAssetsView extends GetView<ManageAssetsController> {
         () => controller.fileSizes.isEmpty
             ? const SizedBox.shrink()
             : Container(
-                padding: REdgeInsets.symmetric(horizontal: 50),
+                padding: REdgeInsets.symmetric(horizontal: 50, vertical: 20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: List.generate(
-                    controller.fileSizes.length,
-                    (int i) => Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: List.generate(
-                        controller.fileSizes[i].pubspecItemList.length,
-                        (int j) => SizedBox(
-                          width: Get.width,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              _buildDirectoryName(j, i),
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Expanded(
-                                    child: Text(controller.fileSizes[i]
-                                        .pubspecItemList[j].fileName),
-                                  ),
-                                  Text(
-                                    controller.getFileSizeString(
-                                      bytes: controller.fileSizes[i]
-                                          .pubspecItemList[j].fileSize,
-                                      decimals: 2,
-                                    ),
-                                  )
-                                ],
-                              ).paddingSymmetric(horizontal: 30.h),
-                            ],
-                          ).paddingSymmetric(vertical: 10.h),
-                        ),
-                      ),
-                    ),
-                  ),
+                  children: _buildDirectoryList(),
                 ),
               ),
       );
+
+  List<Widget> _buildDirectoryList() {
+    return List.generate(
+      controller.fileSizes.length,
+      (int i) => Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildDirectoryExpansionTile(i),
+        ],
+      ),
+    );
+  }
+
+  ExpansionTile _buildDirectoryExpansionTile(int i) {
+    return ExpansionTile(
+      title: Text(
+        controller.fileSizes[i].pubspecItemList[0].directory,
+        style: const TextStyle(
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+      trailing: Text(
+        controller.getFileSizeString(
+          bytes: controller.fileSizes[i].getDirectorySize(),
+          decimals: 2,
+        ),
+        style: const TextStyle(
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+      tilePadding: EdgeInsets.zero,
+      childrenPadding: REdgeInsets.symmetric(vertical: 20),
+      children: _buildDirectoryFilesList(i),
+    );
+  }
+
+  List<Widget> _buildDirectoryFilesList(int i) {
+    return List.generate(
+      controller.fileSizes[i].pubspecItemList.length,
+      (int j) => SizedBox(
+        width: Get.width,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            ListTile(
+              onTap: () => Get.rawSnackbar(
+                message: controller.getFileSizeString(
+                  bytes: controller.fileSizes[i].pubspecItemList[j].fileSize,
+                  decimals: 2,
+                ),
+              ),
+              contentPadding: EdgeInsets.zero,
+              horizontalTitleGap: 0,
+              minVerticalPadding: 0,
+              visualDensity: VisualDensity.compact,
+              dense: true,
+              leading: Text(
+                controller.fileSizes[i].pubspecItemList[j].fileName,
+              ),
+              trailing: Text(
+                controller.getFileSizeString(
+                  bytes: controller.fileSizes[i].pubspecItemList[j].fileSize,
+                  decimals: 2,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
 
   ListTile _buildTitle() => ListTile(
         contentPadding: const EdgeInsets.symmetric(horizontal: 25),
@@ -112,19 +150,5 @@ class ManageAssetsView extends GetView<ManageAssetsController> {
             ),
           ),
         ),
-      );
-
-  Column _buildDirectoryName(int j, int i) => Column(
-        children: [
-          j == 0
-              ? Text(
-                  controller.fileSizes[i].pubspecItemList[j].directory,
-                  style: const TextStyle(
-                    fontWeight: FontWeight.w800,
-                  ),
-                )
-              : const SizedBox.shrink(),
-          j == 0 ? SizedBox(height: 10.h) : const SizedBox.shrink(),
-        ],
       );
 }

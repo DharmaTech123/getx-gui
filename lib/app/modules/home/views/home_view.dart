@@ -7,6 +7,7 @@ import 'package:getx_gui/app/data/local/app_colors.dart';
 import 'package:getx_gui/app/data/repository/app_repository.dart';
 import 'package:getx_gui/app/modules/create_command/views/create_command_view.dart';
 import 'package:getx_gui/app/modules/generate/views/generate_view.dart';
+import 'package:getx_gui/app/modules/generate_build/views/generate_build_view.dart';
 import 'package:getx_gui/app/modules/manage_assets/controllers/manage_assets_controller.dart';
 import 'package:getx_gui/app/modules/manage_assets/views/manage_assets_view.dart';
 import 'package:getx_gui/app/modules/manage_dependency/controllers/manage_dependency_controller.dart';
@@ -64,6 +65,11 @@ class HomeView extends GetView<HomeController> {
                   selectedIcon: Icon(Icons.image_outlined),
                   label: Text('Manage Assets'),
                 ),
+                NavigationRailDestination(
+                  icon: Icon(Icons.build_circle_outlined),
+                  selectedIcon: Icon(Icons.build_circle_outlined),
+                  label: Text('Build'),
+                ),
               ],
             ),
             VerticalDivider(thickness: 1.w, width: 1.w),
@@ -76,6 +82,7 @@ class HomeView extends GetView<HomeController> {
 
   Column _buildRailLeading() {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(height: 25.h),
         ChooseLocation(
@@ -83,7 +90,9 @@ class HomeView extends GetView<HomeController> {
             child: Text(
               controller.projectName(),
               style: TextStyle(
-                fontSize: 18.sp,
+                fontWeight: FontWeight.bold,
+                fontSize: 24.sp,
+                color: AppColors.k000000,
               ),
             ),
           ),
@@ -115,7 +124,34 @@ class HomeView extends GetView<HomeController> {
             ? const Center(child: LinearProgressIndicator())
             : const SizedBox.shrink(),
         ListTile(
-          trailing: Obx(
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextButton(
+                onPressed: () => controller.flutterClean(),
+                child: Text(
+                  'Flutter Clean',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12.sp,
+                    color: AppColors.k000000,
+                  ),
+                ),
+              ),
+              TextButton(
+                onPressed: () => controller.flutterPubGet(),
+                child: Text(
+                  'Flutter Pub Get',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12.sp,
+                    color: AppColors.k000000,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          title: Obx(
             () => Text(
               currentWorkingDirectory(),
               style: TextStyle(
@@ -140,6 +176,8 @@ class HomeView extends GetView<HomeController> {
       return GenerateView();
     } else if (paneIndex.value == 3) {
       return ManageAssetsView();
+    } else if (paneIndex.value == 4) {
+      return GenerateBuildView();
     } else {
       return const SizedBox.shrink();
     }

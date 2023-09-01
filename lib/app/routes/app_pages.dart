@@ -6,6 +6,8 @@ import '../modules/create_project/bindings/create_project_binding.dart';
 import '../modules/create_project/views/create_project_view.dart';
 import '../modules/generate/bindings/generate_binding.dart';
 import '../modules/generate/views/generate_view.dart';
+import '../modules/generate_build/bindings/generate_build_binding.dart';
+import '../modules/generate_build/views/generate_build_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
 import '../modules/manage_assets/bindings/manage_assets_binding.dart';
@@ -57,6 +59,11 @@ class AppPages {
       name: _Paths.MANAGE_ASSETS,
       page: () => ManageAssetsView(),
       binding: ManageAssetsBinding(),
+    ),
+    GetPage(
+      name: _Paths.GENERATE_BUILD,
+      page: () => GenerateBuildView(),
+      binding: GenerateBuildBinding(),
     ),
   ];
 }

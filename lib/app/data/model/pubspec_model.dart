@@ -56,18 +56,24 @@ class PubspecModel {
 
 class PubspecDirectory {
   String directory;
-  List<PubspecItem> pubspecItemList;
+  List<PubspecItem> pubspecItemList = <PubspecItem>[];
 
   PubspecDirectory({
     required this.directory,
     required this.pubspecItemList,
   });
+
+  int getDirectorySize() {
+    return pubspecItemList.fold(0,
+        (previousValue, currentValue) => previousValue + currentValue.fileSize);
+  }
 }
 
 class PubspecItem {
   String directory;
   String fileName;
   int fileSize;
+  bool isUsed = false;
 
   PubspecItem({
     required this.directory,

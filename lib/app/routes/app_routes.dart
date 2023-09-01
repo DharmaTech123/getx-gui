@@ -10,6 +10,7 @@ abstract class Routes {
   static const MANAGE_DEPENDENCY = _Paths.MANAGE_DEPENDENCY;
   static const GENERATE = _Paths.GENERATE;
   static const MANAGE_ASSETS = _Paths.MANAGE_ASSETS;
+  static const GENERATE_BUILD = _Paths.GENERATE_BUILD;
 }
 
 abstract class _Paths {
@@ -21,4 +22,5 @@ abstract class _Paths {
   static const MANAGE_DEPENDENCY = '/manage-dependency';
   static const GENERATE = '/generate';
   static const MANAGE_ASSETS = '/manage-assets';
+  static const GENERATE_BUILD = '/generate-build';
 }
