@@ -2,45 +2,55 @@ import 'dart:io';
 
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
 import 'package:getx_gui/app/data/model/pubspec_model.dart';
+import 'package:getx_gui/app/modules/ui/task_manager/tasks_list.dart';
 import 'package:path/path.dart' as p;
 
 class AssetsDetector {
-  static void findUnusedAssets(
-      RxList<PubspecDirectory> pubspecDirectoryList, String libPath) {
+  static Future<void> findUnusedAssets(
+      RxList<PubspecDirectory> pubspecDirectoryList, String libPath) async {
     for (var dir in pubspecDirectoryList) {
-      for (var files in dir.pubspecItemList) {
-        print(files.fileName);
-        bool status = traverseDirectory(files.fileName, libPath);
-        files.isUsed = status;
+      for (var file in dir.pubspecItemList) {
+        file.isUsed = false;
       }
     }
+    await traverseDirectory(pubspecDirectoryList, libPath);
   }
 
-  static bool traverseDirectory(String fileName, String directory) {
+  static Future<void> traverseDirectory(
+      RxList<PubspecDirectory> pubspecDirectoryList, String directory) async {
     if (File(directory).existsSync()) {
-      return _readDirectoryItem(p.dirname(directory), fileName);
+      await _readDirectoryItem(p.dirname(directory), pubspecDirectoryList);
     } else if (Directory(directory).existsSync()) {
-      return _readDirectoryItem(directory, fileName);
+      await _readDirectoryItem(directory, pubspecDirectoryList);
     }
-    return false;
   }
 
-  static bool _readDirectoryItem(String directory, String fileName) {
-    bool status = false;
-    Directory(directory)
-        .listSync(recursive: true, followLinks: false)
-        .forEach((FileSystemEntity file) async {
-      if (file is File) {
-        if (await file
-            .readAsString()
-            .then((value) => value.contains(fileName))) {
-          status = true;
-          print('debug print file readAsString used ${file.path} $fileName');
+  static Future<void> _readDirectoryItem(
+    String directory,
+    RxList<PubspecDirectory> pubspecDirectoryList,
+  ) async {
+    List<FileSystemEntity> files =
+        Directory(directory).listSync(recursive: true, followLinks: false);
+
+    for (var file in files) {
+      await _markFileUsedOrUnused(file, pubspecDirectoryList);
+    }
+  }
+
+  static Future<void> _markFileUsedOrUnused(FileSystemEntity file,
+      RxList<PubspecDirectory> pubspecDirectoryList) async {
+    if (file is File) {
+      String fileContent = await file.readAsString();
+      for (var dir in pubspecDirectoryList) {
+        for (var files in dir.pubspecItemList) {
+          if (dir.pubspecItemList.indexWhere((element) => !element.isUsed) !=
+              -1) {
+            if (!files.isUsed) {
+              files.isUsed = fileContent.contains(files.fileName);
+            }
+          }
         }
-        status = false;
-        print('debug print file readAsString un used ${file.path} $fileName');
       }
-    });
-    return status;
+    }
   }
 }

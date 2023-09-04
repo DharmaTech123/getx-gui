@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
+import 'package:path/path.dart' as p;
 import 'package:getx_gui/app/modules/ui/components/app_text_feild.dart';
 import 'package:getx_gui/app/modules/ui/components/choose_location.dart';
 
@@ -94,25 +95,41 @@ class ManageAssetsView extends GetView<ManageAssetsController> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             ListTile(
-              onTap: () => Get.rawSnackbar(
-                message: controller.getFileSizeString(
-                  bytes: controller.fileSizes[i].pubspecItemList[j].fileSize,
-                  decimals: 2,
-                ),
-              ),
+              onTap: () {
+                if (!controller.fileSizes[i].pubspecItemList[j].isUsed) {
+                  controller.showRemoveAssetsDialog(
+                    path: p.join(
+                      Directory.current.path,
+                      controller.fileSizes[i].pubspecItemList[j].directory,
+                      controller.fileSizes[i].pubspecItemList[j].fileName,
+                    ),
+                  );
+                }
+              },
               contentPadding: EdgeInsets.zero,
               horizontalTitleGap: 0,
               minVerticalPadding: 0,
               visualDensity: VisualDensity.compact,
               dense: true,
-              leading: Text(
-                controller.fileSizes[i].pubspecItemList[j].fileName,
+              leading: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    controller.fileSizes[i].pubspecItemList[j].fileName,
+                    style: controller.fileSizes[i].pubspecItemList[j].isUsed
+                        ? null
+                        : const TextStyle(color: Colors.red),
+                  ),
+                ],
               ),
               trailing: Text(
                 controller.getFileSizeString(
                   bytes: controller.fileSizes[i].pubspecItemList[j].fileSize,
                   decimals: 2,
                 ),
+                style: controller.fileSizes[i].pubspecItemList[j].isUsed
+                    ? null
+                    : const TextStyle(color: Colors.red),
               ),
             ),
           ],
@@ -123,32 +140,45 @@ class ManageAssetsView extends GetView<ManageAssetsController> {
 
   ListTile _buildTitle() => ListTile(
         contentPadding: const EdgeInsets.symmetric(horizontal: 25),
-        title: const Text(
-          'Assets',
-          style: TextStyle(
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-        trailing: TextButton.icon(
-          style: const ButtonStyle(
-            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            visualDensity: VisualDensity.compact,
-          ),
-          onPressed: () {
-            controller.isSorted.toggle();
-            controller.sortBySize();
-          },
-          icon: Icon(
-            controller.isSorted()
-                ? Icons.keyboard_arrow_down_rounded
-                : Icons.keyboard_arrow_up_rounded,
-          ),
-          label: const Text(
-            'Sort by size',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
+        title: Row(
+          children: [
+            const Text(
+              'Assets',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+              ),
             ),
-          ),
+            IconButton(
+              onPressed: () => controller.readAssets(),
+              icon: const Icon(Icons.refresh),
+            ),
+          ],
+        ),
+        trailing: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            TextButton.icon(
+              style: const ButtonStyle(
+                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                visualDensity: VisualDensity.compact,
+              ),
+              onPressed: () {
+                controller.isSorted.toggle();
+                controller.sortBySize();
+              },
+              icon: Icon(
+                controller.isSorted()
+                    ? Icons.keyboard_arrow_down_rounded
+                    : Icons.keyboard_arrow_up_rounded,
+              ),
+              label: const Text(
+                'Sort by size',
+                style: TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+          ],
         ),
       );
 }
