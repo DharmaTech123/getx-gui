@@ -7,7 +7,7 @@ import 'package:get/get.dart';
 import 'package:getx_gui/app/data/model/pubspec_model.dart';
 import 'package:getx_gui/app/modules/ui/components/app_text_feild.dart';
 import 'package:getx_gui/app/modules/ui/components/choose_location.dart';
-import 'package:getx_gui/app/root/common/utils/pubspec/pubspec_utils.dart';
+import 'package:getx_gui/app/groot/common/utils/pubspec/pubspec_utils.dart';
 
 class ManageAssets extends StatefulWidget {
   ManageAssets({super.key});

@@ -10,6 +10,7 @@ class AppColors {
   static const k116D5C = Color(0xff116D5C);
   static const kffffff = Color(0xffFFFFFF);
   static const k000000 = Color(0xff000000);
+  static const kF1F7F0 = Color(0xffF1F7F0);
 
   static const kmAAD400 = MaterialColor(
     0xFFAAD400,

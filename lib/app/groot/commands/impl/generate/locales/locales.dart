@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:getx_gui/app/root/core/generator.dart';
+import 'package:getx_gui/app/groot/core/generator.dart';
 import 'package:path/path.dart';
 
 import '../../../../common/utils/logger/log_utils.dart';

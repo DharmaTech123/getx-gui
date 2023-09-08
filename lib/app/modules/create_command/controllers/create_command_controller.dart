@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:getx_gui/app/root/models/create_model.dart';
+import 'package:getx_gui/app/groot/models/create_model.dart';
 
 class CreateCommandController extends GetxController {
   //TODO: Implement CreateCommandController

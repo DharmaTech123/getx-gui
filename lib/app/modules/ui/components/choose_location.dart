@@ -15,7 +15,7 @@ class ChooseLocation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
+    return FilledButton(
       child: child ??
           Text(
             label ?? 'Choose',

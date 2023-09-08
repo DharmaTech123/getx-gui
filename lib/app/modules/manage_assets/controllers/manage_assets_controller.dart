@@ -6,7 +6,7 @@ import 'package:get/get.dart';
 import 'package:getx_gui/app/data/local/unused_assets_detector.dart';
 import 'package:getx_gui/app/data/model/pubspec_model.dart';
 import 'package:getx_gui/app/modules/ui/task_manager/tasks_list.dart';
-import 'package:getx_gui/app/root/common/utils/pubspec/pubspec_utils.dart';
+import 'package:getx_gui/app/groot/common/utils/pubspec/pubspec_utils.dart';
 
 class ManageAssetsController extends GetxController {
   //TODO: Implement ManageAssetsController

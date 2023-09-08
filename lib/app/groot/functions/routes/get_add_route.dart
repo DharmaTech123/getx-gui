@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:getx_gui/app/root/extensions/string.dart';
+import 'package:getx_gui/app/groot/extensions/string.dart';
 import 'package:recase/recase.dart';
 
 import '../../common/utils/logger/log_utils.dart';

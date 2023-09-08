@@ -1,7 +1,7 @@
 import 'dart:io';
 
-import 'package:getx_gui/app/root/common/utils/pubspec/pubspec_utils.dart';
-import 'package:getx_gui/app/root/core/generator.dart';
+import 'package:getx_gui/app/groot/common/utils/pubspec/pubspec_utils.dart';
+import 'package:getx_gui/app/groot/core/generator.dart';
 
 Future<bool> callTask(List<String> arguments) async {
   try {

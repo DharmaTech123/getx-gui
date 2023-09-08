@@ -7,7 +7,7 @@ import 'package:getx_gui/app/modules/ui/components/app_button.dart';
 import 'package:getx_gui/app/modules/ui/components/app_text_feild.dart';
 import 'package:getx_gui/app/modules/ui/components/choose_location.dart';
 import 'package:getx_gui/app/modules/ui/task_manager/tasks_list.dart';
-import 'package:getx_gui/app/root/models/generate_model.dart';
+import 'package:getx_gui/app/groot/models/generate_model.dart';
 
 class Generate extends StatefulWidget {
   Generate({super.key});

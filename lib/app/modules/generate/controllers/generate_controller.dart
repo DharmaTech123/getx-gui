@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:getx_gui/app/root/models/generate_model.dart';
+import 'package:getx_gui/app/groot/models/generate_model.dart';
 
 class GenerateController extends GetxController {
   //TODO: Implement GenerateController

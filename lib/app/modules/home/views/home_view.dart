@@ -19,7 +19,7 @@ import 'package:getx_gui/app/modules/ui/components/manage_assets_view.dart';
 import 'package:getx_gui/app/modules/ui/components/manage_dependency.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:getx_gui/app/modules/ui/task_manager/tasks_list.dart';
-import 'package:getx_gui/app/root/common/utils/pubspec/pubspec_utils.dart';
+import 'package:getx_gui/app/groot/common/utils/pubspec/pubspec_utils.dart';
 import 'package:getx_gui/app/routes/app_pages.dart';
 import 'package:path/path.dart' as p;
 
@@ -35,44 +35,8 @@ class HomeView extends GetView<HomeController> {
       () => Scaffold(
         body: Row(
           children: [
-            NavigationRail(
-              useIndicator: false,
-              selectedIndex: paneIndex(),
-              extended: true,
-              onDestinationSelected: (value) {
-                Task.hideLoader();
-                paneIndex(value);
-              },
-              leading: _buildRailLeading(),
-              destinations: const <NavigationRailDestination>[
-                NavigationRailDestination(
-                  icon: Icon(Icons.create_new_folder),
-                  selectedIcon: Icon(Icons.create_new_folder),
-                  label: Text('Create'),
-                ),
-                NavigationRailDestination(
-                  icon: Icon(Icons.install_desktop),
-                  selectedIcon: Icon(Icons.install_desktop),
-                  label: Text('Manage Dependency'),
-                ),
-                NavigationRailDestination(
-                  icon: Icon(Icons.sync),
-                  selectedIcon: Icon(Icons.sync),
-                  label: Text('Generate'),
-                ),
-                NavigationRailDestination(
-                  icon: Icon(Icons.image_outlined),
-                  selectedIcon: Icon(Icons.image_outlined),
-                  label: Text('Manage Assets'),
-                ),
-                NavigationRailDestination(
-                  icon: Icon(Icons.build_circle_outlined),
-                  selectedIcon: Icon(Icons.build_circle_outlined),
-                  label: Text('Build'),
-                ),
-              ],
-            ),
-            VerticalDivider(thickness: 1.w, width: 1.w),
+            _buildNavigationRail(),
+            //VerticalDivider(thickness: 1.w, width: 1.w),
             Expanded(child: _buildBody()),
           ],
         ),
@@ -80,25 +44,89 @@ class HomeView extends GetView<HomeController> {
     );
   }
 
+  NavigationRail _buildNavigationRail() {
+    return NavigationRail(
+      useIndicator: true,
+      selectedIndex: paneIndex(),
+      extended: true,
+      backgroundColor: AppColors.kF1F7F0,
+      onDestinationSelected: (value) {
+        Task.hideLoader();
+        paneIndex(value);
+        if (paneIndex.value == 5) {
+          Get.offAllNamed(Routes.START_UP);
+        }
+      },
+      selectedLabelTextStyle: const TextStyle(
+        fontWeight: FontWeight.w500,
+        color: Colors.black,
+      ),
+      unselectedLabelTextStyle: const TextStyle(
+        fontWeight: FontWeight.w400,
+        color: Colors.black,
+      ),
+      leading: _buildRailLeading(),
+      destinations: const <NavigationRailDestination>[
+        NavigationRailDestination(
+          icon: Icon(Icons.create_new_folder_outlined),
+          selectedIcon: Icon(Icons.create_new_folder_outlined),
+          label: Text('Create'),
+        ),
+        NavigationRailDestination(
+          icon: Icon(Icons.install_desktop),
+          selectedIcon: Icon(Icons.install_desktop),
+          label: Text('Manage Dependency'),
+        ),
+        NavigationRailDestination(
+          icon: Icon(Icons.sync),
+          selectedIcon: Icon(Icons.sync),
+          label: Text('Generate'),
+        ),
+        NavigationRailDestination(
+          icon: Icon(Icons.image_outlined),
+          selectedIcon: Icon(Icons.image_outlined),
+          label: Text('Manage Assets'),
+        ),
+        NavigationRailDestination(
+          icon: Icon(Icons.build_circle_outlined),
+          selectedIcon: Icon(Icons.build_circle_outlined),
+          label: Text('Build'),
+        ),
+        NavigationRailDestination(
+          icon: Icon(Icons.arrow_back),
+          selectedIcon: Icon(Icons.arrow_back),
+          label: Text('Exit'),
+        ),
+      ],
+    );
+  }
+
   Column _buildRailLeading() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: 25.h),
-        ChooseLocation(
+        25.verticalSpace,
+        Text(
+          controller.projectName(),
+          style: TextStyle(
+            fontSize: 34.sp,
+            fontWeight: FontWeight.w600,
+          ),
+        ).paddingSymmetric(horizontal: 20),
+        /*ChooseLocation(
           child: FittedBox(
             child: Text(
               controller.projectName(),
               style: TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 24.sp,
-                color: AppColors.k000000,
+                //color: AppColors.k000000,
               ),
             ),
           ),
           onSubmit: (path) => openProjectAndReloadData(path),
-        ),
-        SizedBox(height: 25.h),
+        ),*/
+        25.verticalSpace,
       ],
     );
   }
@@ -124,33 +152,8 @@ class HomeView extends GetView<HomeController> {
             ? const Center(child: LinearProgressIndicator())
             : const SizedBox.shrink(),
         ListTile(
-          trailing: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextButton(
-                onPressed: () => controller.flutterClean(),
-                child: Text(
-                  'Flutter Clean',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 12.sp,
-                    color: AppColors.k000000,
-                  ),
-                ),
-              ),
-              TextButton(
-                onPressed: () => controller.flutterPubGet(),
-                child: Text(
-                  'Flutter Pub Get',
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 12.sp,
-                    color: AppColors.k000000,
-                  ),
-                ),
-              ),
-            ],
-          ),
+          tileColor: AppColors.kF1F7F0,
+          contentPadding: REdgeInsets.all(8),
           title: Obx(
             () => Text(
               currentWorkingDirectory(),
@@ -160,9 +163,39 @@ class HomeView extends GetView<HomeController> {
               ),
             ),
           ),
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              FilledButton(
+                onPressed: () => controller.flutterClean(),
+                child: Text(
+                  'Flutter Clean',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12.sp,
+                    color: AppColors.kffffff,
+                  ),
+                ),
+              ),
+              10.horizontalSpace,
+              FilledButton(
+                onPressed: () => controller.flutterPubGet(),
+                child: Text(
+                  'Flutter Pub Get',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 12.sp,
+                    color: AppColors.kffffff,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
         SizedBox(height: 10.h),
-        Expanded(child: _buildPaneBody()),
+        Expanded(
+          child: _buildPaneBody(),
+        ),
       ],
     );
   }

@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'dart:math';
-import 'package:getx_gui/app/root/common/utils/pubspec/pubspec_utils.dart';
+import 'package:getx_gui/app/groot/common/utils/pubspec/pubspec_utils.dart';
 import 'package:path/path.dart' as p;
 
 class PubspecModel {

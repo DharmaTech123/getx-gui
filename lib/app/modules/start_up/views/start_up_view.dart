@@ -29,32 +29,8 @@ class StartUpView extends GetView<StartUpController> {
       () => Scaffold(
         body: Row(
           children: [
-            NavigationRail(
-              backgroundColor: AppColors.kffffff,
-              useIndicator: false,
-              selectedIndex: controller.paneIndex(),
-              onDestinationSelected: (value) {
-                controller.paneIndex(value);
-                if (controller.paneIndex.value == 0) {
-                  controller.fetchProjects();
-                }
-              },
-              extended: true,
-              leading: _buildRailLeading(),
-              destinations: const <NavigationRailDestination>[
-                NavigationRailDestination(
-                  icon: Icon(Icons.folder_open),
-                  selectedIcon: Icon(Icons.folder),
-                  label: Text('Projects'),
-                ),
-                NavigationRailDestination(
-                  icon: Icon(Icons.info_outline),
-                  selectedIcon: Icon(Icons.info),
-                  label: Text('Learn GetX'),
-                ),
-              ],
-            ),
-            VerticalDivider(thickness: 1.w, width: 1.w),
+            _buildNavigationRail(),
+            // VerticalDivider(thickness: 1.w, width: 1.w),
             Expanded(
               child: Column(
                 children: [
@@ -73,63 +49,117 @@ class StartUpView extends GetView<StartUpController> {
     );
   }
 
+  NavigationRail _buildNavigationRail() {
+    return NavigationRail(
+      selectedIndex: controller.paneIndex(),
+      backgroundColor: AppColors.kF1F7F0,
+      onDestinationSelected: (value) {
+        controller.paneIndex(value);
+        if (controller.paneIndex.value == 0) {
+          controller.fetchProjects();
+        }
+      },
+      extended: true,
+      leading: _buildRailLeading(),
+      useIndicator: true,
+      selectedLabelTextStyle: const TextStyle(
+        fontWeight: FontWeight.w500,
+        color: Colors.black,
+      ),
+      unselectedLabelTextStyle: const TextStyle(
+        fontWeight: FontWeight.w400,
+        color: Colors.black,
+      ),
+      destinations: const <NavigationRailDestination>[
+        NavigationRailDestination(
+          icon: Icon(Icons.folder_open),
+          selectedIcon: Icon(Icons.folder_open),
+          label: Text('Projects'),
+        ),
+        NavigationRailDestination(
+          icon: Icon(Icons.info_outline),
+          selectedIcon: Icon(Icons.info_outline),
+          label: Text('Learn GetX'),
+        ),
+      ],
+    );
+  }
+
   Container _buildListProjects() {
     return Container(
       width: Get.width.w,
       height: Get.height.h,
-      padding: REdgeInsets.symmetric(horizontal: 20),
+      // padding: REdgeInsets.symmetric(horizontal: 20),
       child: Column(
         children: [
-          Row(
-            children: [
-              Expanded(
-                child: AppTextField(
-                  label: 'Search Projects',
-                  controller: controller.searchProjectController,
-                  validator: (input) {
-                    if (input?.isEmpty ?? false) {
-                      return 'invalid input';
-                    }
-                    return null;
-                  },
-                  onChanged: (value) {
-                    controller.filterList(value);
+          Container(
+            color: AppColors.kF1F7F0,
+            padding: REdgeInsets.all(10),
+            child: Row(
+              children: [
+                Expanded(
+                  child: AppTextField(
+                    label: 'Search Projects',
+                    isSearch: true,
+                    controller: controller.searchProjectController,
+                    validator: (input) {
+                      if (input?.isEmpty ?? false) {
+                        return 'invalid input';
+                      }
+                      return null;
+                    },
+                    onChanged: (value) {
+                      controller.filterList(value);
+                    },
+                  ),
+                ),
+                20.horizontalSpace,
+                ChooseLocation(
+                  label: 'New Project',
+                  onSubmit: (path) {
+                    controller.onclickNewProject();
                   },
                 ),
-              ),
-              ChooseLocation(
-                label: 'New Project',
-                onSubmit: (path) {
-                  controller.onclickNewProject();
-                },
-              ),
-              ChooseLocation(
-                label: 'Open',
-                onSubmit: (path) {
-                  Directory.current = path;
-                  currentWorkingDirectory(path);
-                  Get.offNamed(Routes.HOME);
-                },
-              ),
-              TextButton(
-                onPressed: () {
-                  AppStorage.clearData();
-                  controller.projects.clear();
-                },
-                child: const Text('Clear'),
-              ),
-            ],
+                10.horizontalSpace,
+                ChooseLocation(
+                  label: 'Open',
+                  onSubmit: (path) {
+                    Directory.current = path;
+                    currentWorkingDirectory(path);
+                    Get.offNamed(Routes.HOME);
+                  },
+                ),
+                10.horizontalSpace,
+                PopupMenuButton(
+                  onSelected: (value) {
+                    if (value == 0) {
+                      AppStorage.clearData();
+                      controller.projects.clear();
+                    }
+                  },
+                  itemBuilder: (BuildContext bc) {
+                    return const [
+                      PopupMenuItem(
+                        value: 0,
+                        child: Text("Clear Projects"),
+                      ),
+                    ];
+                  },
+                ),
+              ],
+            ),
           ),
-          SizedBox(height: 30.h),
+          20.verticalSpace,
           Expanded(
             child: ListView.separated(
               shrinkWrap: true,
+              padding: REdgeInsets.symmetric(horizontal: 20),
               separatorBuilder: (context, index) => SizedBox(height: 10.h),
               itemBuilder: (context, index) => _buildProjectItem(index),
               itemCount: controller.projects.length,
             ),
           ),
-          SizedBox(height: 30.h),
+          20.verticalSpace,
         ],
       ),
     );
@@ -153,19 +183,19 @@ class StartUpView extends GetView<StartUpController> {
           //horizontalTitleGap: 0,
           visualDensity: VisualDensity.compact,
           minVerticalPadding: 0,
-          contentPadding: EdgeInsets.zero,
+          //contentPadding: EdgeInsets.zero,
           titleAlignment: ListTileTitleAlignment.center,
           leading: Container(
-            height: 30.h,
-            width: 30.w,
-            color: Colors.blueGrey,
+            height: 35.h,
+            width: 35.w,
+            color: Theme.of(Get.context as BuildContext).primaryColor,
             child: Center(
               child: Text(
                 controller.projects[index].title[0].toUpperCase(),
                 style: TextStyle(
                   color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 18.sp,
+                  fontWeight: FontWeight.w500,
+                  fontSize: 24.sp,
                 ),
               ),
             ),
@@ -174,8 +204,8 @@ class StartUpView extends GetView<StartUpController> {
             controller.projects[index].title,
             style: TextStyle(
               color: Colors.black,
-              fontSize: 18.sp,
-              fontWeight: FontWeight.w400,
+              fontSize: 16.sp,
+              fontWeight: FontWeight.w500,
               decoration: TextDecoration.none,
             ),
           ),
@@ -183,7 +213,7 @@ class StartUpView extends GetView<StartUpController> {
             controller.projects[index].location,
             style: TextStyle(
               color: Colors.black54,
-              fontSize: 12.sp,
+              fontSize: 14.sp,
               fontWeight: FontWeight.w400,
               decoration: TextDecoration.none,
             ),
@@ -208,14 +238,15 @@ class StartUpView extends GetView<StartUpController> {
   Column _buildRailLeading() {
     return Column(
       children: [
-        SizedBox(height: 25.h),
+        25.verticalSpace,
         Text(
           'GETX UI',
           style: TextStyle(
             fontSize: 34.sp,
+            fontWeight: FontWeight.w600,
           ),
         ),
-        SizedBox(height: 25.h),
+        25.verticalSpace,
       ],
     );
   }

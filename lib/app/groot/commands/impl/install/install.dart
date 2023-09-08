@@ -1,4 +1,4 @@
-import 'package:getx_gui/app/root/core/generator.dart';
+import 'package:getx_gui/app/groot/core/generator.dart';
 
 import '../../../common/utils/logger/log_utils.dart';
 import '../../../common/utils/pubspec/pubspec_utils.dart';
