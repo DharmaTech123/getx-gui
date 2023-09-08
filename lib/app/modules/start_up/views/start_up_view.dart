@@ -94,7 +94,7 @@ class StartUpView extends GetView<StartUpController> {
         children: [
           Container(
             color: AppColors.kF1F7F0,
-            padding: REdgeInsets.all(10),
+            padding: REdgeInsets.symmetric(vertical: 10),
             child: Row(
               children: [
                 Expanded(

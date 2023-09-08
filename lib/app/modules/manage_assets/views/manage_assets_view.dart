@@ -43,7 +43,7 @@ class ManageAssetsView extends GetView<ManageAssetsController> {
         () => controller.fileSizes.isEmpty
             ? const SizedBox.shrink()
             : Container(
-                padding: REdgeInsets.symmetric(horizontal: 50, vertical: 20),
+                padding: REdgeInsets.symmetric(horizontal: 30, vertical: 20),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: _buildDirectoryList(),
@@ -145,7 +145,7 @@ class ManageAssetsView extends GetView<ManageAssetsController> {
             const Text(
               'Assets',
               style: TextStyle(
-                fontWeight: FontWeight.bold,
+                fontWeight: FontWeight.w600,
               ),
             ),
             IconButton(

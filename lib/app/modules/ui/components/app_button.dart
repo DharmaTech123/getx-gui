@@ -20,7 +20,7 @@ class AppButton extends StatelessWidget {
           Radius.circular(25),
         ),
       ),
-      child: TextButton(
+      child: FilledButton(
         onPressed: onPressed,
         child: const Text(
           'Submit',

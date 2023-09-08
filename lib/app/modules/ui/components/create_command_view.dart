@@ -42,6 +42,9 @@ class _CreateState extends State<Create> {
                 ),
                 const SizedBox(height: 12),
                 ListTile(
+                  tileColor: Theme.of(Get.context as BuildContext)
+                      .primaryColor
+                      .withOpacity(0.1),
                   shape: const RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(
                       Radius.circular(12),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
 import 'package:getx_gui/app/modules/ui/components/app_button.dart';
@@ -22,23 +23,16 @@ class CreateCommandView extends GetView<CreateCommandController> {
             shrinkWrap: true,
             children: [
               Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const ListTile(
-                    title: Text(
-                      'Create',
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    contentPadding: EdgeInsets.symmetric(horizontal: 25),
-                  ),
-                  const SizedBox(height: 12),
+                  12.verticalSpace,
                   ListTile(
+                    tileColor: Theme.of(Get.context as BuildContext)
+                        .primaryColor
+                        .withOpacity(0.1),
                     shape: const RoundedRectangleBorder(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(12),
-                      ),
+                      borderRadius: BorderRadius.all(Radius.circular(12)),
                     ),
                     title: DropdownButtonHideUnderline(
                       child: ButtonTheme(
@@ -65,14 +59,18 @@ class CreateCommandView extends GetView<CreateCommandController> {
                     contentPadding: EdgeInsets.zero,
                     minVerticalPadding: 0,
                   ).paddingAll(25),
-                  const SizedBox(height: 12),
+                  12.verticalSpace,
                   _buildInputTextFieldWidgets(
-                      controller.defaultCommand(), controller.formKey),
-                  const SizedBox(height: 12),
+                    controller.defaultCommand(),
+                    controller.formKey,
+                  ),
+                  12.verticalSpace,
                   Center(
                     child: AppButton(
                       onPressed: () => _onSubmitCreate(
-                          controller.formKey, controller.defaultCommand()),
+                        controller.formKey,
+                        controller.defaultCommand(),
+                      ),
                       title: 'Submit',
                     ),
                   ),

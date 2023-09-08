@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
 import 'package:getx_gui/app/modules/ui/components/app_button.dart';
@@ -29,17 +30,11 @@ class ManageDependencyView extends GetView<ManageDependencyController> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const ListTile(
-                      title: Text(
-                        'Manage Dependency',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      contentPadding: EdgeInsets.symmetric(horizontal: 25),
-                    ),
                     const SizedBox(height: 12),
                     ListTile(
+                      tileColor: Theme.of(Get.context as BuildContext)
+                          .primaryColor
+                          .withOpacity(0.1),
                       shape: const RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(
                           Radius.circular(12),
@@ -96,26 +91,23 @@ class ManageDependencyView extends GetView<ManageDependencyController> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          const SizedBox(height: 20),
                           _buildListDependencies(
                             title: 'Dependencies',
                             dependencies: controller.pubSpec!.dependencies,
                           ),
-                          const SizedBox(height: 20),
                           _buildListDependencies(
                             title: 'Dev Dependencies',
                             dependencies: controller.pubSpec!.devDependencies,
                           ),
-                          const SizedBox(height: 20),
                           _buildListDependencies(
                             title: 'Dependency Overrides',
                             dependencies:
                                 controller.pubSpec!.dependencyOverrides,
                           ),
-                          const SizedBox(height: 20),
                         ],
-                      )
+                      ).paddingSymmetric(horizontal: 30)
                     : const SizedBox.shrink(),
+                const SizedBox(height: 40),
               ],
             ),
           ],
@@ -124,44 +116,42 @@ class ManageDependencyView extends GetView<ManageDependencyController> {
     );
   }
 
-  Column _buildListDependencies(
+  Widget _buildListDependencies(
       {required String title,
       required Map<String, DependencyReference> dependencies}) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        ListTile(
-          title: Text(
-            title,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-        ),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: List.generate(
-            dependencies.length,
-            (index) => ListTile(
-              minVerticalPadding: 0,
-              contentPadding: const EdgeInsets.symmetric(
-                horizontal: 60,
-                vertical: 0,
+    return dependencies.isEmpty
+        ? const SizedBox.shrink()
+        : Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              ExpansionTile(
+                tilePadding: EdgeInsets.zero,
+                childrenPadding: REdgeInsets.symmetric(vertical: 20),
+                title: Text(
+                  title,
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+                children: List.generate(
+                  dependencies.length,
+                  (index) => ListTile(
+                    minVerticalPadding: 0,
+                    contentPadding: EdgeInsets.zero,
+                    title: Text(
+                      dependencies
+                          .toString()
+                          .split(',')[index]
+                          .replaceAll('{', '')
+                          .replaceAll('}', '')
+                          .trim(),
+                      textAlign: TextAlign.left,
+                    ),
+                  ),
+                ),
               ),
-              title: Text(
-                dependencies
-                    .toString()
-                    .split(',')[index]
-                    .replaceAll('{', '')
-                    .replaceAll('}', '')
-                    .trim(),
-                textAlign: TextAlign.left,
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
+            ],
+          );
   }
 
   void _onSubmitCreate(

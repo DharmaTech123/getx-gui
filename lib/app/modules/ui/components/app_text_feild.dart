@@ -46,7 +46,6 @@ class _AppTextFieldState extends State<AppTextField> {
         decoration: InputDecoration(
           label: widget.label != null ? Text(widget.label.toString()) : null,
           suffix: widget.suffix,
-          labelStyle: const TextStyle(height: -0.5),
           isDense: true,
           constraints: BoxConstraints(
             maxHeight: 45.h,
@@ -57,7 +56,7 @@ class _AppTextFieldState extends State<AppTextField> {
               Radius.circular(12.r),
             ),
             borderSide: BorderSide(
-              width: 1.w,
+              width: 0.6.w,
             ),
           ),
           focusedErrorBorder: OutlineInputBorder(
@@ -65,7 +64,7 @@ class _AppTextFieldState extends State<AppTextField> {
               Radius.circular(12.r),
             ),
             borderSide: BorderSide(
-              width: 1.w,
+              width: 0.6.w,
             ),
           ),
           enabledBorder: OutlineInputBorder(
@@ -73,7 +72,7 @@ class _AppTextFieldState extends State<AppTextField> {
               Radius.circular(12.r),
             ),
             borderSide: BorderSide(
-              width: 1.w,
+              width: 0.6.w,
             ),
           ),
           errorBorder: OutlineInputBorder(
@@ -81,7 +80,7 @@ class _AppTextFieldState extends State<AppTextField> {
               Radius.circular(12.r),
             ),
             borderSide: BorderSide(
-              width: 1.w,
+              width: 0.6.w,
             ),
           ),
           filled: true, //isFocused(),

@@ -22,17 +22,11 @@ class GenerateView extends GetView<GenerateController> {
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const ListTile(
-              title: Text(
-                'Generate',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-              contentPadding: EdgeInsets.symmetric(horizontal: 25),
-            ),
             const SizedBox(height: 12),
             ListTile(
+              tileColor: Theme.of(Get.context as BuildContext)
+                  .primaryColor
+                  .withOpacity(0.1),
               shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.all(
                   Radius.circular(12),
@@ -151,6 +145,9 @@ class GenerateView extends GetView<GenerateController> {
             ),
           ),
           ListTile(
+            tileColor: Theme.of(Get.context as BuildContext)
+                .primaryColor
+                .withOpacity(0.1),
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(
                 Radius.circular(12),
