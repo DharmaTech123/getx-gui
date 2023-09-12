@@ -12,11 +12,6 @@ import 'package:getx_gui/app/modules/manage_assets/controllers/manage_assets_con
 import 'package:getx_gui/app/modules/manage_assets/views/manage_assets_view.dart';
 import 'package:getx_gui/app/modules/manage_dependency/controllers/manage_dependency_controller.dart';
 import 'package:getx_gui/app/modules/manage_dependency/views/manage_dependency_view.dart';
-import 'package:getx_gui/app/modules/ui/components/choose_location.dart';
-import 'package:getx_gui/app/modules/ui/components/create_command_view.dart';
-import 'package:getx_gui/app/modules/ui/components/generate_command_view.dart';
-import 'package:getx_gui/app/modules/ui/components/manage_assets_view.dart';
-import 'package:getx_gui/app/modules/ui/components/manage_dependency.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:getx_gui/app/modules/ui/task_manager/tasks_list.dart';
 import 'package:getx_gui/app/groot/common/utils/pubspec/pubspec_utils.dart';

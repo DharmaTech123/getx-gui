@@ -10,7 +10,6 @@ import 'package:getx_gui/app/data/repository/app_repository.dart';
 import 'package:getx_gui/app/modules/create_project/views/create_project_view.dart';
 import 'package:getx_gui/app/modules/ui/components/app_text_feild.dart';
 import 'package:getx_gui/app/modules/ui/components/choose_location.dart';
-import 'package:getx_gui/app/modules/ui/components/create_command_view.dart';
 import 'package:getx_gui/app/modules/ui/task_manager/tasks_list.dart';
 import 'package:getx_gui/app/routes/app_pages.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
