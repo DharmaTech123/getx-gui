@@ -36,6 +36,26 @@ class AppStorage {
     }
   }
 
+  static void removeProject({required String title, required String location}) {
+    List<ProjectModel> projects = getString() == null
+        ? []
+        : List<ProjectModel>.from(
+            (jsonDecode(getString().toString()) as List<dynamic>).map(
+              (model) => ProjectModel.fromJson(model),
+            ),
+          );
+    if (projects.indexWhere((element) => element.location == location) != -1) {
+      projects.removeAt(
+          projects.indexWhere((element) => element.location == location));
+
+      String encodedProjectList =
+          jsonEncode(projects.map((model) => model.toJson()).toList())
+              .toString();
+
+      setData(encodedProjectList);
+    }
+  }
+
   static List<ProjectModel>? retrieveProjects() {
     List<ProjectModel> projects = getString() == null
         ? []

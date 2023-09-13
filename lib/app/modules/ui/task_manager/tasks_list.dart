@@ -28,8 +28,7 @@ class Task {
       AppStorage.saveProject(
           title: p.basename(Directory.current.path),
           location: Directory.current.path);
-      await showStatusDialog(
-          title: 'Project Successfully Created', isSuccess: true);
+      await showStatusDialog(title: 'Project Successfully Created');
     }
   }
 
@@ -38,8 +37,7 @@ class Task {
     final bool status = await callTask(['create', 'page', pageName]);
     hideLoader();
     if (status) {
-      await showStatusDialog(
-          title: 'Module Successfully Created', isSuccess: true);
+      await showStatusDialog(title: 'Module Successfully Created');
     }
   }
 
@@ -50,8 +48,7 @@ class Task {
         await callTask(['create', 'view', viewName, 'on', moduleName]);
     hideLoader();
     if (status) {
-      await showStatusDialog(
-          title: 'View Successfully Created', isSuccess: true);
+      await showStatusDialog(title: 'View Successfully Created');
     }
   }
 
@@ -62,8 +59,7 @@ class Task {
         ['create', 'controller', controllerName, 'on', moduleName]);
     hideLoader();
     if (status) {
-      await showStatusDialog(
-          title: 'Controller Successfully Created', isSuccess: true);
+      await showStatusDialog(title: 'Controller Successfully Created');
     }
   }
 
@@ -74,8 +70,7 @@ class Task {
         await callTask(['create', 'provider', providerName, 'on', moduleName]);
     hideLoader();
     if (status) {
-      await showStatusDialog(
-          title: 'Provider Successfully Created', isSuccess: true);
+      await showStatusDialog(title: 'Provider Successfully Created');
     }
   }
 
@@ -85,8 +80,7 @@ class Task {
     final bool status =
         await callTask(['generate', 'locales', destinationFolder]);
     if (status) {
-      await showStatusDialog(
-          title: 'Locales Successfully Generated', isSuccess: true);
+      await showStatusDialog(title: 'Locales Successfully Generated');
     }
     hideLoader();
   }
@@ -105,7 +99,7 @@ class Task {
       destinationFolder
     ]);
     if (status) {
-      showStatusDialog(title: 'Model Successfully Generated', isSuccess: true);
+      showStatusDialog(title: 'Model Successfully Generated');
     }
     hideLoader();
   }
@@ -128,7 +122,6 @@ class Task {
       await showStatusDialog(
         title:
             'Dependency Successfully ${isRemoving ? 'Removed' : 'Installed'}',
-        isSuccess: true,
       );
     }
     hideLoader();
@@ -143,15 +136,23 @@ class Task {
   }
 
   static Future<void> showStatusDialog(
-      {required String title, required bool isSuccess}) async {
+      {required String title, String? content, bool isError = false}) async {
     await showDialog<void>(
       context: Get.context!,
       builder: (BuildContext context) => AlertDialog(
         title: Text(title),
-        icon: Icon(
-          isSuccess ? Icons.check_circle : Icons.close_rounded,
-          color: isSuccess ? Colors.green : Colors.red,
-        ),
+        icon: isError
+            ? const Icon(
+                Icons.error,
+                color: Colors.red,
+                size: 36,
+              )
+            : const Icon(
+                Icons.check_circle,
+                color: Colors.green,
+                size: 36,
+              ),
+        content: Text(content ?? ''),
       ),
     );
   }

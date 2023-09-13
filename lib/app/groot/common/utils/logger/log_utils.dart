@@ -1,5 +1,6 @@
 import 'package:ansicolor/ansicolor.dart';
 import 'package:flutter/material.dart';
+import 'package:getx_gui/app/modules/ui/task_manager/tasks_list.dart';
 
 // ignore_for_file: avoid_print
 
@@ -20,15 +21,20 @@ class LogService {
   static void error(String msg) {
     const sep = '\n';
     // to check: ⚠ ❌✖✕
-    msg = '✖  + ${_penError(msg.trim())}';
+    msg = '✖   ${_penError(msg.trim())}';
     msg = msg + sep;
     print(msg);
     logData.add(Text(msg));
+    Task.hideLoader();
+    Task.showStatusDialog(title: msg, isError: true);
   }
 
   static void success(dynamic msg) {
-    print('✓  ${_penSuccess(msg.toString())}');
-    logData.add(Text('✓  ${_penSuccess(msg.toString())}'));
+    const sep = '\n';
+    msg = '✓   ${_penSuccess(msg.toString())}';
+    msg = msg + sep;
+    //Task.hideLoader();
+    //Task.showStatusDialog(title: msg);
   }
 
   static void info(String msg, [bool trim = false, bool newLines = true]) {

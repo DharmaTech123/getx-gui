@@ -3,7 +3,9 @@ import 'dart:io';
 import 'package:get/get.dart';
 import 'package:flutter/material.dart';
 import 'package:getx_gui/app/groot/common/menu/menu.dart';
+import 'package:getx_gui/app/groot/common/utils/logger/log_utils.dart';
 import 'package:getx_gui/app/modules/ui/task_manager/tasks_list.dart';
+import 'package:process_run/shell_run.dart';
 
 class GenerateBuildController extends GetxController {
   //TODO: Implement GenerateBuildController
@@ -29,20 +31,17 @@ class GenerateBuildController extends GetxController {
 
   Future<void> generateBuild() async {
     String command = await extractedCommand();
-    print('debug print command $command');
     Task.showLoader();
-    await Process.run(
-      'Powershell.exe',
-      [command],
-      runInShell: false,
-      //mode: ProcessStartMode.normal,
-      includeParentEnvironment: true,
-    );
-    Task.hideLoader();
-    Task.showStatusDialog(
-      title: 'Build Generated Successfully',
-      isSuccess: true,
-    );
+    try {
+      if (command.isNotEmpty) {
+        await run(command, verbose: true);
+      }
+      LogService.success('Build Generated Successfully');
+      Task.hideLoader();
+      Task.showStatusDialog(title: 'Build Generated Successfully');
+    } on Exception catch (error) {
+      LogService.error(error.toString());
+    }
   }
 
   Future<String> extractedCommand() async {
@@ -54,7 +53,7 @@ class GenerateBuildController extends GetxController {
       case 'Windows':
         return 'flutter build windows';
       default:
-        return 'flutter build apk';
+        return '';
     }
   }
 
@@ -64,7 +63,9 @@ class GenerateBuildController extends GetxController {
       'APK',
     ], title: 'Select which type of build you want to generate ?');
     final type = await menu.choose();
-    if (type.index == 1) {
+    if (type.index == 0) {
+      return 'flutter build appbundle';
+    } else if (type.index == 1) {
       final menu = Menu([
         'Fat APK',
         'Split per ABI',
@@ -76,6 +77,6 @@ class GenerateBuildController extends GetxController {
         return 'flutter build ${type.result.toLowerCase()} --split-per-abi';
       }
     }
-    return 'flutter build ${type.result.replaceAll(' ', '').toLowerCase()}';
+    return '';
   }
 }

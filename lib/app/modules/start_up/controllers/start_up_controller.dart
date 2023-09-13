@@ -70,4 +70,29 @@ class StartUpController extends GetxController {
       tempProjectsList(AppStorage.retrieveProjects() ?? []);
     }
   }
+
+  void showRemoveConfirmation(int index) {
+    Get.dialog(
+      AlertDialog(
+        title: const Text('Remove project ?'),
+        actions: [
+          TextButton(
+            onPressed: () {
+              AppStorage.removeProject(
+                title: projects[index].title,
+                location: projects[index].location,
+              );
+              projects.removeAt(index);
+              Get.back();
+            },
+            child: const Text('Remove'),
+          ),
+          TextButton(
+            onPressed: () => Get.back(),
+            child: const Text('Cancel'),
+          ),
+        ],
+      ),
+    );
+  }
 }

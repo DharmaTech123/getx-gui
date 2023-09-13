@@ -13,6 +13,7 @@ import 'package:getx_gui/app/modules/ui/components/choose_location.dart';
 import 'package:getx_gui/app/modules/ui/task_manager/tasks_list.dart';
 import 'package:getx_gui/app/routes/app_pages.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:path/path.dart' as p;
 
 import '../controllers/start_up_controller.dart';
 
@@ -126,6 +127,10 @@ class StartUpView extends GetView<StartUpController> {
                     Directory.current = path;
                     currentWorkingDirectory(path);
                     Get.offNamed(Routes.HOME);
+                    AppStorage.saveProject(
+                      title: p.basename(Directory.current.path),
+                      location: Directory.current.path,
+                    );
                   },
                 ),
                 10.horizontalSpace,
@@ -215,6 +220,14 @@ class StartUpView extends GetView<StartUpController> {
               fontSize: 14.sp,
               fontWeight: FontWeight.w400,
               decoration: TextDecoration.none,
+            ),
+          ),
+          trailing: IconButton(
+            onPressed: () => controller.showRemoveConfirmation(index),
+            icon: const Icon(
+              Icons.close,
+              size: 18,
+              color: Colors.black26,
             ),
           ),
         ),
