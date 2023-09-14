@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getx_gui/app/modules/ui/task_manager/tasks_list.dart';
@@ -24,7 +26,8 @@ class ManageDependencyController extends GetxController {
   void loadPubSpecData() {
     try {
       Task.showLoader();
-      pubSpec = PubspecUtils.pubSpec;
+      pubSpec = PubSpec.fromYamlString(File('pubspec.yaml').readAsStringSync());
+      //pubSpec = PubspecUtils.pubSpec;
     } catch (e) {
       Task.hideLoader();
       pubSpec = null;

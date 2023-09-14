@@ -7,6 +7,7 @@ import 'package:getx_gui/app/data/local/unused_assets_detector.dart';
 import 'package:getx_gui/app/data/model/pubspec_model.dart';
 import 'package:getx_gui/app/modules/ui/task_manager/tasks_list.dart';
 import 'package:getx_gui/app/groot/common/utils/pubspec/pubspec_utils.dart';
+import 'package:pubspec/pubspec.dart';
 
 class ManageAssetsController extends GetxController {
   //TODO: Implement ManageAssetsController
@@ -35,20 +36,24 @@ class ManageAssetsController extends GetxController {
     super.onClose();
   }
 
-  void readAssets() {
+  Future<void> readAssets() async {
     try {
       Task.showLoader();
       fileSizes.clear();
-      Map<dynamic, dynamic>? assets = PubspecUtils.pubSpec.unParsedYaml;
+      Map<dynamic, dynamic>? assets =
+          PubSpec.fromYamlString(File('pubspec.yaml').readAsStringSync())
+              .unParsedYaml;
       if (assets != null) {
         if (assets['flutter'] != null) {
           if (assets['flutter']['assets'] != null) {
-            fileSizes(PubspecModel.readAssets());
-            showUnusedFile();
+            var result = await PubspecModel.readAssets(
+                assets['flutter']['assets'] as List);
+            fileSizes(result);
             fileSizes.refresh();
           }
         }
       }
+      Task.hideLoader();
     } catch (e) {
       Task.hideLoader();
       Get.rawSnackbar(message: e.toString());
@@ -118,7 +123,6 @@ class ManageAssetsController extends GetxController {
   Future<void> _deleteAssetsAndReloadPubspec(String path) async {
     Get.back();
     await deleteFile(File(path));
-    PubspecUtils().loadFile(File('pubspec.yaml'));
     Get.find<ManageAssetsController>().readAssets();
   }
 }

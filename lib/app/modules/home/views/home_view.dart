@@ -131,7 +131,6 @@ class HomeView extends GetView<HomeController> {
       Directory.current = path;
       currentWorkingDirectory(path);
       controller.projectName(p.basename(Directory.current.path));
-      PubspecUtils().loadFile(File('pubspec.yaml'));
       Get.find<ManageAssetsController>().readAssets();
       Get.find<ManageDependencyController>().loadPubSpecData();
     } catch (e) {

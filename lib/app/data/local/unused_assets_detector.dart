@@ -7,7 +7,7 @@ import 'package:path/path.dart' as p;
 
 class AssetsDetector {
   static Future<void> findUnusedAssets(
-      RxList<PubspecDirectory> pubspecDirectoryList, String libPath) async {
+      List<PubspecDirectory> pubspecDirectoryList, String libPath) async {
     for (var dir in pubspecDirectoryList) {
       for (var file in dir.pubspecItemList) {
         file.isUsed = false;
@@ -17,7 +17,7 @@ class AssetsDetector {
   }
 
   static Future<void> traverseDirectory(
-      RxList<PubspecDirectory> pubspecDirectoryList, String directory) async {
+      List<PubspecDirectory> pubspecDirectoryList, String directory) async {
     if (File(directory).existsSync()) {
       await _readDirectoryItem(p.dirname(directory), pubspecDirectoryList);
     } else if (Directory(directory).existsSync()) {
@@ -27,7 +27,7 @@ class AssetsDetector {
 
   static Future<void> _readDirectoryItem(
     String directory,
-    RxList<PubspecDirectory> pubspecDirectoryList,
+    List<PubspecDirectory> pubspecDirectoryList,
   ) async {
     List<FileSystemEntity> files =
         Directory(directory).listSync(recursive: true, followLinks: false);
@@ -38,7 +38,7 @@ class AssetsDetector {
   }
 
   static Future<void> _markFileUsedOrUnused(FileSystemEntity file,
-      RxList<PubspecDirectory> pubspecDirectoryList) async {
+      List<PubspecDirectory> pubspecDirectoryList) async {
     if (file is File) {
       String fileContent = await file.readAsString();
       for (var dir in pubspecDirectoryList) {

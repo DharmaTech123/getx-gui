@@ -38,6 +38,7 @@ dependencies:
   file_picker: ^4.2.0
   file_selector: ^1.0.0
   flutter_screenutil: ^5.8.4
+  msix: ^3.16.1
   get_storage: ^2.1.1
   ansicolor: ">=2.0.1 <3.0.0"
   collection: ">=1.15.0 <2.0.0"
@@ -117,3 +118,13 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+
+msix_config:
+  display_name: GetX GUI
+  publisher_display_name: DharmaTech
+  identity_name: dt.getxgui.tech
+  msix_version: 1.0.0.0
+  install_certificate: false
+  store: false
+  #logo_path: C:\path\to\logo.png
+  #capabilities: internetClient, location, microphone, webcam

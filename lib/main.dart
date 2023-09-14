@@ -51,7 +51,6 @@ Future<void> main() async {
       ),
     ); // starting point of app
   }, (error, stackTrace) {
-    print('debug print error');
     print("Error FROM OUT_SIDE FRAMEWORK ");
     print("--------------------------------");
     print("Error :  $error");
