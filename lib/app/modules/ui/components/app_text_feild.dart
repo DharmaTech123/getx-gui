@@ -67,14 +67,14 @@ class _AppTextFieldState extends State<AppTextField> {
               width: 0.6.w,
             ),
           ),
-          enabledBorder: OutlineInputBorder(
+          /* enabledBorder: OutlineInputBorder(
             borderRadius: BorderRadius.all(
               Radius.circular(12.r),
             ),
             borderSide: BorderSide(
               width: 0.6.w,
             ),
-          ),
+          ),*/
           errorBorder: OutlineInputBorder(
             borderRadius: BorderRadius.all(
               Radius.circular(12.r),
@@ -83,12 +83,12 @@ class _AppTextFieldState extends State<AppTextField> {
               width: 0.6.w,
             ),
           ),
-          filled: true, //isFocused(),
-          /* enabledBorder: UnderlineInputBorder(
+          // filled: true, //isFocused(),
+          enabledBorder: UnderlineInputBorder(
             borderSide: BorderSide(
               width: 1.w,
             ),
-          ),*/
+          ),
         ),
         controller: widget.controller,
         validator: (value) => widget.validator?.call(value),

@@ -137,6 +137,7 @@ class ManageDependencyView extends GetView<ManageDependencyController> {
                   dependencies.length,
                   (index) => ListTile(
                     minVerticalPadding: 0,
+                    dense: true,
                     contentPadding: EdgeInsets.zero,
                     title: Text(
                       dependencies

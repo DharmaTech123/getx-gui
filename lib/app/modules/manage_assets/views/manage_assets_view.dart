@@ -41,7 +41,12 @@ class ManageAssetsView extends GetView<ManageAssetsController> {
 
   Widget _buildAssetsList() => Obx(
         () => controller.fileSizes.isEmpty
-            ? const SizedBox.shrink()
+            ? SizedBox(
+                height: 300.h,
+                child: const Center(
+                  child: Text('Not Found'),
+                ),
+              )
             : Container(
                 padding: REdgeInsets.symmetric(horizontal: 30, vertical: 20),
                 child: Column(
@@ -98,6 +103,8 @@ class ManageAssetsView extends GetView<ManageAssetsController> {
               onTap: () {
                 if (!controller.fileSizes[i].pubspecItemList[j].isUsed) {
                   controller.showRemoveAssetsDialog(
+                    fileName:
+                        controller.fileSizes[i].pubspecItemList[j].fileName,
                     path: p.join(
                       Directory.current.path,
                       controller.fileSizes[i].pubspecItemList[j].directory,

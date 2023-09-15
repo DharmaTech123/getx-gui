@@ -102,10 +102,12 @@ class ManageAssetsController extends GetxController {
     return ((bytes / pow(1024, i)).toStringAsFixed(decimals)) + suffixes[i];
   }
 
-  void showRemoveAssetsDialog({required String path}) {
+  void showRemoveAssetsDialog(
+      {required String path, required String fileName}) {
     Get.dialog(
       AlertDialog(
         title: const Text('Delete permanently ?'),
+        content: Text('$fileName is not used'),
         actions: [
           TextButton(
             onPressed: () => _deleteAssetsAndReloadPubspec(path),
