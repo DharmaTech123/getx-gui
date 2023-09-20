@@ -5,6 +5,7 @@ import 'package:getx_gui/app/groot/common/utils/logger/log_utils.dart';
 import 'package:getx_gui/app/modules/ui/task_manager/tasks_list.dart';
 import 'package:path/path.dart' as p;
 import 'package:process_run/shell_run.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class HomeController extends GetxController {
   //TODO: Implement HomeController

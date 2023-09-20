@@ -54,9 +54,11 @@ class StartUpView extends GetView<StartUpController> {
       selectedIndex: controller.paneIndex(),
       backgroundColor: AppColors.kF1F7F0,
       onDestinationSelected: (value) {
-        controller.paneIndex(value);
-        if (controller.paneIndex.value == 0) {
+        if (value == 0) {
+          controller.paneIndex(value);
           controller.fetchProjects();
+        } else if (value == 1) {
+          controller.launchUrlWeb('https://pub.dev/documentation/get');
         }
       },
       extended: true,
@@ -145,7 +147,7 @@ class StartUpView extends GetView<StartUpController> {
                     return const [
                       PopupMenuItem(
                         value: 0,
-                        child: Text("Clear Projects"),
+                        child: Text("Clear All Projects"),
                       ),
                     ];
                   },

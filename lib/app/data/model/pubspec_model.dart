@@ -12,9 +12,12 @@ class PubspecModel {
   static List<PubspecDirectory> pubspecDirectoryList = [];
   static List<String> completedDirectories = [];
 
+  static int totalUnused = 0;
+
   static Future<List<PubspecDirectory>> readAssets(List assets) async {
     pubspecDirectoryList.clear();
     completedDirectories.clear();
+    totalUnused = 0;
     for (var dir in assets) {
       traverseDirectory(dir);
     }
@@ -22,6 +25,13 @@ class PubspecModel {
       pubspecDirectoryList,
       '${Directory.current.path}\\lib',
     );
+    for (var dir in pubspecDirectoryList) {
+      for (var file in dir.pubspecItemList) {
+        if (!file.isUsed) {
+          totalUnused++;
+        }
+      }
+    }
     return pubspecDirectoryList;
   }
 

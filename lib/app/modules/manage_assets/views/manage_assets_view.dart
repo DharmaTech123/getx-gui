@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import 'package:get/get.dart';
+import 'package:getx_gui/app/data/local/unused_assets_detector.dart';
+import 'package:getx_gui/app/data/model/pubspec_model.dart';
 import 'package:path/path.dart' as p;
 import 'package:getx_gui/app/modules/ui/components/app_text_feild.dart';
 import 'package:getx_gui/app/modules/ui/components/choose_location.dart';
@@ -160,6 +162,10 @@ class ManageAssetsView extends GetView<ManageAssetsController> {
               icon: const Icon(Icons.refresh),
             ),
           ],
+        ),
+        subtitle: Text(
+          '${PubspecModel.totalUnused} unused',
+          style: const TextStyle(color: Colors.red),
         ),
         trailing: Row(
           mainAxisSize: MainAxisSize.min,

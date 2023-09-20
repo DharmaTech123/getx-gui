@@ -6,6 +6,7 @@ import 'package:getx_gui/app/data/model/project_model.dart';
 import 'package:getx_gui/app/data/model/storage_helper.dart';
 import 'package:getx_gui/app/modules/ui/task_manager/tasks_list.dart';
 import 'package:process_run/shell.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class StartUpController extends GetxController {
   //TODO: Implement StartUpController
@@ -53,6 +54,12 @@ class StartUpController extends GetxController {
   @override
   void onClose() {
     super.onClose();
+  }
+
+  Future<void> launchUrlWeb(String url) async {
+    if (!await launchUrl(Uri.parse(url))) {
+      throw Exception('Could not launch $url');
+    }
   }
 
   void filterList(String? keyword) {
