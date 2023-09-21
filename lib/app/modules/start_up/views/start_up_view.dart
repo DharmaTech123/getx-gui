@@ -254,14 +254,10 @@ class StartUpView extends GetView<StartUpController> {
     return Column(
       children: [
         25.verticalSpace,
-        AppImages.dtLogo,
-        12.verticalSpace,
-        Text(
-          'GETX UI',
-          style: TextStyle(
-            fontSize: 34.sp,
-            fontWeight: FontWeight.w600,
-          ),
+        SizedBox(
+          height: 120.h,
+          width: 120.w,
+          child: AppImages.getxLogo,
         ),
         25.verticalSpace,
       ],

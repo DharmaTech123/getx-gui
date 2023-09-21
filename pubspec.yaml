@@ -127,5 +127,5 @@ msix_config:
   msix_version: 1.0.0.0
   install_certificate: false
   store: false
-  #logo_path: C:\path\to\logo.png
+  logo_path: assets\getx_icon.png
   #capabilities: internetClient, location, microphone, webcam

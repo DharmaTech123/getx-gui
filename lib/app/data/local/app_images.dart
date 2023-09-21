@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
 class AppImages {
-  static String dtLogoPath = 'assets/dtlogo.png';
+  static String getxLogoPath = 'assets/getx_logo.png';
+  static String getxIconPath = 'assets/getx_icon.png';
 
-  static Image dtLogo = Image.asset(dtLogoPath);
+  static Image getxLogo = Image.asset(getxLogoPath);
+  static Image getxIcon = Image.asset(getxIconPath);
 }

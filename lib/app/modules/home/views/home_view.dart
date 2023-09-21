@@ -102,7 +102,11 @@ class HomeView extends GetView<HomeController> {
       crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         25.verticalSpace,
-        AppImages.dtLogo,
+        SizedBox(
+          height: 120.h,
+          width: 120.w,
+          child: AppImages.getxLogo,
+        ),
         12.verticalSpace,
         Text(
           controller.projectName(),
