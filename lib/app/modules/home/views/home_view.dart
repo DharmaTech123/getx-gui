@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:getx_gui/app/data/local/app_colors.dart';
+import 'package:getx_gui/app/data/local/app_images.dart';
 import 'package:getx_gui/app/data/repository/app_repository.dart';
 import 'package:getx_gui/app/modules/create_command/views/create_command_view.dart';
 import 'package:getx_gui/app/modules/generate/views/generate_view.dart';
@@ -98,9 +99,11 @@ class HomeView extends GetView<HomeController> {
 
   Column _buildRailLeading() {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         25.verticalSpace,
+        AppImages.dtLogo,
+        12.verticalSpace,
         Text(
           controller.projectName(),
           style: TextStyle(

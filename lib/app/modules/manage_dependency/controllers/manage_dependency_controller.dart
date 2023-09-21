@@ -28,6 +28,7 @@ class ManageDependencyController extends GetxController {
       Task.showLoader();
       pubSpec = PubSpec.fromYamlString(File('pubspec.yaml').readAsStringSync());
       //pubSpec = PubspecUtils.pubSpec;
+      Task.hideLoader();
     } catch (e) {
       Task.hideLoader();
       pubSpec = null;

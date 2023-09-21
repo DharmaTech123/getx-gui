@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getx_gui/app/data/model/storage_helper.dart';
 import 'package:getx_gui/app/data/repository/app_repository.dart';
+import 'package:getx_gui/app/modules/manage_dependency/controllers/manage_dependency_controller.dart';
 import 'package:getx_gui/app/modules/ui/task_manager/task_manager.dart';
 import 'package:path/path.dart' as p;
 
@@ -119,6 +120,7 @@ class Task {
     }
     final bool status = await callTask(args);
     if (status) {
+      Get.find<ManageDependencyController>().loadPubSpecData();
       await showStatusDialog(
         title:
             'Dependency Successfully ${isRemoving ? 'Removed' : 'Installed'}',

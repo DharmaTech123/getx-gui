@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:getx_gui/app/data/local/app_colors.dart';
+import 'package:getx_gui/app/data/local/app_images.dart';
 import 'package:getx_gui/app/data/model/project_model.dart';
 import 'package:getx_gui/app/data/model/storage_helper.dart';
 import 'package:getx_gui/app/data/repository/app_repository.dart';
@@ -253,6 +254,8 @@ class StartUpView extends GetView<StartUpController> {
     return Column(
       children: [
         25.verticalSpace,
+        AppImages.dtLogo,
+        12.verticalSpace,
         Text(
           'GETX UI',
           style: TextStyle(
