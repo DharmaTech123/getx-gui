@@ -137,6 +137,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.0.0"
+  dart_depcheck:
+    dependency: "direct dev"
+    description:
+      name: dart_depcheck
+      sha256: "226bc1a94d7f3fc05f477bef8580a9e51da622d33bfb960113a6a31dbbaa1de7"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.1-dev.6+1"
   dart_style:
     dependency: "direct main"
     description:
@@ -145,6 +153,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.2"
+  extended_text_field:
+    dependency: "direct dev"
+    description:
+      name: extended_text_field
+      sha256: "893f61eff66157cbf14764f08092730fc3ff8987e7f1e92f618b007226be9bda"
+      url: "https://pub.dev"
+    source: hosted
+    version: "12.1.0"
+  extended_text_library:
+    dependency: transitive
+    description:
+      name: extended_text_library
+      sha256: f6ae456324ff6ba3f9fe560a5c12f51ec02c5f463ef5a02bf165b678f049d547
+      url: "https://pub.dev"
+    source: hosted
+    version: "11.1.0"
   fake_async:
     dependency: transitive
     description:
@@ -246,6 +270,14 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_fancy_container:
+    dependency: "direct dev"
+    description:
+      name: flutter_fancy_container
+      sha256: fa984584a8763c62fa63f535b2982a626bf88f8b8d6da06b6d30dbd94f9882c8
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.4"
   flutter_lints:
     dependency: "direct dev"
     description:

@@ -4,11 +4,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:getx_gui/app/modules/ui/components/app_button.dart';
 import 'package:getx_gui/app/modules/ui/components/app_text_feild.dart';
-import 'package:getx_gui/app/modules/ui/components/choose_location.dart';
 import 'package:getx_gui/app/modules/ui/task_manager/tasks_list.dart';
-import 'package:getx_gui/app/groot/common/utils/pubspec/pubspec_utils.dart';
-import 'package:getx_gui/app/groot/models/generate_model.dart';
-import 'package:pubspec/pubspec.dart';
 
 import '../controllers/manage_dependency_controller.dart';
 
@@ -93,16 +89,28 @@ class ManageDependencyView extends GetView<ManageDependencyController> {
                         children: [
                           _buildListDependencies(
                             title: 'Dependencies',
-                            dependencies: controller.pubSpec!.dependencies,
+                            dependencies: controller
+                                .pubSpec!.dependencies.entries
+                                .map((e) => '${e.key}: ${e.value}')
+                                .toList(),
+                            unUsed: controller.unusedDependencies.value,
                           ),
                           _buildListDependencies(
                             title: 'Dev Dependencies',
-                            dependencies: controller.pubSpec!.devDependencies,
+                            dependencies: controller
+                                .pubSpec!.devDependencies.entries
+                                .map((e) => '${e.key}: ${e.value}')
+                                .toList(),
+                            isDev: true,
+                            unUsed: controller.unusedDevDependencies.value,
                           ),
                           _buildListDependencies(
                             title: 'Dependency Overrides',
-                            dependencies:
-                                controller.pubSpec!.dependencyOverrides,
+                            dependencies: controller
+                                .pubSpec!.dependencyOverrides.entries
+                                .map((e) => '${e.key}: ${e.value}')
+                                .toList(),
+                            unUsed: [],
                           ),
                         ],
                       ).paddingSymmetric(horizontal: 30)
@@ -116,9 +124,12 @@ class ManageDependencyView extends GetView<ManageDependencyController> {
     );
   }
 
-  Widget _buildListDependencies(
-      {required String title,
-      required Map<String, DependencyReference> dependencies}) {
+  Widget _buildListDependencies({
+    required String title,
+    required List<String> dependencies,
+    required List<String> unUsed,
+    bool isDev = false,
+  }) {
     return dependencies.isEmpty
         ? const SizedBox.shrink()
         : Column(
@@ -133,19 +144,34 @@ class ManageDependencyView extends GetView<ManageDependencyController> {
                     fontWeight: FontWeight.w600,
                   ),
                 ),
+                subtitle: Text(
+                  unUsed.isEmpty ? '' : '${unUsed.length} unused',
+                  style: const TextStyle(color: Colors.red),
+                ),
                 children: List.generate(
                   dependencies.length,
                   (index) => ListTile(
+                    onTap: () {
+                      if (unUsed.contains(
+                          dependencies[index].split(':').first.trim())) {
+                        controller.showRemoveAssetsDialog(
+                          packageName:
+                              dependencies[index].trim().replaceAll('"', ''),
+                          isDev: isDev,
+                        );
+                      }
+                    },
                     minVerticalPadding: 0,
                     dense: true,
                     contentPadding: EdgeInsets.zero,
                     title: Text(
-                      dependencies
-                          .toString()
-                          .split(',')[index]
-                          .replaceAll('{', '')
-                          .replaceAll('}', '')
-                          .trim(),
+                      dependencies[index].trim().replaceAll('"', ''),
+                      style: TextStyle(
+                        color: unUsed.contains(
+                                dependencies[index].split(':').first.trim())
+                            ? Colors.red
+                            : Colors.black,
+                      ),
                       textAlign: TextAlign.left,
                     ),
                   ),

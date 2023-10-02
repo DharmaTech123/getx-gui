@@ -110,6 +110,7 @@ class Task {
     required bool isRemoving,
     required bool isDev,
   }) async {
+    print('debug print packageName $packageName');
     showLoader();
     List<String> args = [
       isRemoving ? 'remove' : 'install',
